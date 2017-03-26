@@ -6,7 +6,11 @@
 Invoice Client Account
 ========
 
-Add client's bank account to sale invoice
+This module adds a Company bank account to the partner.
+This account is automatically set on the invoice form and added to the printed invoice.
+
+This modules also adds a client bank account field to the invoice.
+If filled, the client's bank account is printed.
 
 
 Bug Tracker
