@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<odoo>
+<openerp>
+  <data>
 
     <record model="ir.ui.view" id="view_financial_forecast_form">
         <field name="name">Financial Forecast Form View</field>
@@ -55,7 +56,6 @@
                             <field name="ref"/>
                             <field name="statement_id" invisible="1"/>
                             <field name="partner_id"/>
-                            <field name="full_reconcile_id"/>
                             <field name="balance"/>
                             <field name="date_maturity"/>
                             <field name="amount_residual"/>
@@ -72,7 +72,6 @@
                             <field name="ref"/>
                             <field name="statement_id" invisible="1"/>
                             <field name="partner_id"/>
-                            <field name="full_reconcile_id"/>
                             <field name="balance"/>
                             <field name="amount_residual"/>
                             <field name="amount_residual"/>
@@ -123,4 +122,6 @@
         </field>
     </record>
 
-</odoo>
+
+  </data>
+</openerp>

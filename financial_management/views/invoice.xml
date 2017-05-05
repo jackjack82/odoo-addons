@@ -32,7 +32,7 @@
     <record model="ir.ui.view" id="account_invoice_supplier_tree_riba">
         <field name="name">account.invoice.supplier.tree.riba</field>
         <field name="model">account.invoice</field>
-        <field name="inherit_id" ref="account.invoice_supplier_tree"/>
+        <field name="inherit_id" ref="account.invoice_tree"/>
         <field name="arch" type="xml">
             <field name="date_due" position="after">
               <field name="financial_date"/>
@@ -40,21 +40,6 @@
             </field>
         </field>
     </record>
-
-
-    <!-- adding RIBA fields to invoice SEARCH VIEWS-->
-    <record model="ir.ui.view" id="account_invoice_customer_search_riba">
-        <field name="name">account.invoice.supplier.search.riba</field>
-        <field name="model">account.invoice</field>
-        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
-        <field name="arch" type="xml">
-            <filter name="late" position="after">
-              <filter name="riba" string="RiBa" domain="[('payment_term_id.riba_term','!=', False)]"/>
-              <filter name="riba" string="Non RiBa" domain="[('payment_term_id.riba_term','!=', True)]"/>
-            </filter>
-        </field>
-    </record>
-
 
 </data>
 </openerp>

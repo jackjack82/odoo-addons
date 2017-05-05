@@ -18,7 +18,6 @@
         'account',
         'account_accountant',
         'base',
-        'etichette_features',
         ],
     'data': [
         'views/account_account.xml',

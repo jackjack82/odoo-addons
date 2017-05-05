@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
+<openerp>
+  <data>
 
   <!-- -->
   <record model="ir.ui.view" id="account_move_tree_financial_planning">
@@ -33,4 +34,5 @@
       </field>
   </record>
 
-</odoo>
+  </data>
+</openerp>

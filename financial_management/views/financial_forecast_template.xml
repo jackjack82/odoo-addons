@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<odoo>
+<openerp>
+  <data>
 
     <record model="ir.ui.view" id="view_financial_forecast_template_form">
         <field name="name">Financial Forecast Template Form View</field>
@@ -40,4 +41,6 @@
             </tree>
         </field>
     </record>
-</odoo>
+
+  </data>
+</openerp>

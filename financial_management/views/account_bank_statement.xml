@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
+<openerp>
+<data>
 
   <record model="ir.ui.view" id="account_bank_statement_line_financial_planning">
     <field name="name">account_bank_statement_line_financial_planning</field>
@@ -14,4 +15,5 @@
     </field>
   </record>
 
-</odoo>
+  </data>
+</openerp>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api, _
-from odoo.exceptions import Warning
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning
 
 
 class AccountInvoice(models.Model):

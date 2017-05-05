@@ -2,7 +2,7 @@
 Financial Planning
 =========================
 
-This module introduces financial planning functionalities to Odoo.
+This module introduces financial planning functionalities to openerp.
 
 Configuration
 =============
