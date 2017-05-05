@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- adding RIBA fields to invoice FORM VIEWS-->
+  <record model="ir.ui.view" id="account_account_form_financial_planning_3">
+      <field name="name">account_account_form_financial_planning</field>
+      <field name="model">account.account</field>
+      <field name="inherit_id" ref="account.view_account_form"/>
+      <field name="arch" type="xml">
+          <field name="user_type_id" position="after">
+            <field name="financial_planning"/>
+          </field>
+      </field>
+  </record>
+
+</odoo>

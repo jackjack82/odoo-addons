@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record model="ir.ui.view" id="view_financial_forecast_template_form">
+        <field name="name">Financial Forecast Template Form View</field>
+        <field name="model">financial.forecast.template</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+              <sheet>
+                <group string="Financial Template">
+                  <group>
+                    <field name="name"/>
+                    <field name="bank_statement_id"/>
+                  </group>
+                </group>
+                <notebook>
+                  <page string="Recurring costs">
+                    <field name="recurring_line_ids"/>
+                  </page>
+                </notebook>
+              </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_financial_forecast_recurring_costs_tree">
+        <field name="name">view_financial_forecast_recurring_costs_tree</field>
+        <field name="model">financial.forecast.line.template</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree editable='True'>
+              <field name="name"/>
+              <field name="ref"/>
+              <field name="day"/>
+              <field name="partner_id"/>
+              <field name="journal_id"/>
+              <field name="amount"/>
+              <field name="financial_forecast_template_id"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

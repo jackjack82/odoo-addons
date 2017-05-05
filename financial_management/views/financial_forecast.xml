@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record model="ir.ui.view" id="view_financial_forecast_form">
+        <field name="name">Financial Forecast Form View</field>
+        <field name="model">financial.forecast</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+              <header>
+                <button name="compute_forecast_lines"
+                        type="object"
+                        class="oe_edit_only"
+                        string="Compute forecast lines"
+                        states="open"
+                        confirm="Do you really want to compute the forecast lines?"/>
+                <button name="compute_forecast_data"
+                        type="object"
+                        class="oe_edit_only"
+                        string="Update forecast data"
+                        confirm="Do you really want to update this forecast data?"/>
+                <button name="update_forecast_balances"
+                        type="object"
+                        string="Update balances"/>
+                <field name="state" widget="statusbar" clickable="True"/>
+              </header>
+              <sheet>
+                <group>
+                  <group>
+                    <field name="name"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="forecast_template_id"/>
+                    <field name="company_id" readonly="True"/>
+                  </group>
+                  <group>
+                    <field name="previous_forecast_id"/>
+                    <field name="initial_balance"/>
+                    <field name="final_balance"/>
+                    <field name="periodic_saldo"/>
+                  </group>
+                </group>
+                <group string="Delta" col="6">
+                  <field name="receivables" colspan="2"/>
+                  <field name="payables" colspan="2"/>
+                  <field name="cost_revenues" colspan="2"/>
+                </group>
+                <notebook>
+                    <page name='receivable' string="Receivables">
+                      <field name="receivable_ids">
+                        <tree editable="True">
+                            <field name="move_id" required="0"/>
+                            <field name="journal_id" options="{&quot;no_open&quot;:True}"/>
+                            <field name="name"/>
+                            <field name="ref"/>
+                            <field name="statement_id" invisible="1"/>
+                            <field name="partner_id"/>
+                            <field name="full_reconcile_id"/>
+                            <field name="balance"/>
+                            <field name="date_maturity"/>
+                            <field name="amount_residual"/>
+                            <field name="financial_date"/>
+                        </tree>
+                      </field>
+                    </page>
+                    <page name='payables' string="Payables">
+                      <field name="payable_ids">
+                        <tree editable="True">
+                            <field name="move_id" required="0"/>
+                            <field name="journal_id" options="{&quot;no_open&quot;:True}"/>
+                            <field name="name"/>
+                            <field name="ref"/>
+                            <field name="statement_id" invisible="1"/>
+                            <field name="partner_id"/>
+                            <field name="full_reconcile_id"/>
+                            <field name="balance"/>
+                            <field name="amount_residual"/>
+                            <field name="amount_residual"/>
+                            <field name="date_maturity"/>
+                            <field name="financial_date"/>
+                        </tree>
+                      </field>
+                    </page>
+                    <page name='recurrent_costs' string="Costs/revenues">
+                      <field name="recurrent_cost_ids"
+                             context="{'default_from_forecast': 'True',
+                                       'default_financial_date': date_start,}"
+                             colors="red:name != 'test'">
+                      <tree editable="True">
+                        <field name="name"/>
+                        <field name="partner_id"/>
+                        <field name="ref"/>
+                        <field name="amount"/>
+                        <field name="financial_date"
+                               required='True'
+                               domain="[('date','=',time.strftime('%%Y-%%m-%%d'))]"/>
+                        <field name="financial_forecast_id"/>
+                        <field name="statement_id"
+                               domain="[('state', '!=', 'confirm')]"/>
+                        <field name="from_forecast" string="FC"/>
+                      </tree>
+                    </field>
+                    </page>
+                </notebook>
+              </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_financial_forecast_tree">
+        <field name="name">view_financial_forecast_tree</field>
+        <field name="model">financial.forecast</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Financial planning">
+              <field name="name"/>
+              <field name="date_start"/>
+              <field name="date_end"/>
+              <field name="initial_balance"/>
+              <field name="final_balance"/>
+              <field name="periodic_saldo"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>
