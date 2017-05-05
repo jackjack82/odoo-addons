@@ -3,3 +3,4 @@
 *.pyo
 *.~*
 *.mo
+/production_single_lot/*
