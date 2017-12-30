@@ -1,0 +1,10 @@
+.DS_Store
+*.pyc
+*.pyo
+*.~*
+*.mo
+/production_single_lot/*
+internal_notes.txt
+/base_readonly_user/*
+fabfile.py
+/mail_message_merge/*
