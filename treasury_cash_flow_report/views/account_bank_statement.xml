@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="account_bank_statement_line_tree_treasury_planning_3" model="ir.ui.view">
+    <field name="name">account_bank_statement_line_treasury_planning</field>
+    <field name="model">account.bank.statement</field>
+    <field name="inherit_id" ref="account.view_bank_statement_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//tree/field[@name='amount']" position='after'>
+          <field name="cf_share"/>
+        </xpath>
+    </field>
+  </record>
+
+  <record id="account_bank_statement_line_tree_add_treasury_3" model="ir.ui.view">
+    <field name="name">account_bank_statement_line_tree_add_treasury</field>
+    <field name="model">account.bank.statement.line</field>
+    <field name="inherit_id" ref="account.view_bank_statement_line_tree"/>
+    <field name="arch" type="xml">
+        <field name="amount" position="after">
+          <field name="cf_share"/>
+        </field>
+    </field>
+  </record>
+
+  <record id="account_bank_statement_line_form_add_treasury_3" model="ir.ui.view">
+    <field name="name">account_bank_statement_line_form_add_treasury</field>
+    <field name="model">account.bank.statement.line</field>
+    <field name="inherit_id" ref="account.view_bank_statement_line_form"/>
+    <field name="arch" type="xml">
+          <field name="cf_share" readonly="0"/>
+        </field>
+    </field>
+  </record>
+
+</odoo>

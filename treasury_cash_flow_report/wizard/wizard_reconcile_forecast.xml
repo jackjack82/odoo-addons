@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+        <record id="wizard_treasury_data_reconcile_forecast" model="ir.ui.view">
+            <field name="name">Reconcile lines</field>
+            <field name="model">bank.statement.line.reconcile.forecast</field>
+            <field name="arch" type="xml">
+                <form string="Reconcile lines">
+                   <header>
+                     <button name="button_reconciliation_preview"
+                             string="Reconciliation preview"
+                             type="object"
+                             />
+                   </header>
+                    <group colspan="2">
+                        <field name="preview"
+                               nolabel="True"
+                               readonly="True"/>
+                    </group>
+                    <footer>
+                        <button name="button_reconcile_lines"
+                                string="Confirm"
+                                type="object"
+                                class="oe_highlight" />
+                        or
+                        <button special="cancel"
+                                string="_Cancel"
+                                class="oe_link" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_reconcile_forecast_lines"
+                    name="Reconcile forecast lines "
+                    res_model="bank.statement.line.reconcile.forecast"
+                    src_model="account.bank.statement.line"
+                    view_type="form"
+                    view_mode="form"
+                    multi="True"
+                    view_id="wizard_treasury_data_reconcile_forecast"
+                    target="new" />
+
+</odoo>

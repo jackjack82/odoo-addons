@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data noupdate="1">
+      <function model="account.invoice" name="invoice_compute_share_init"/>
+      <function model="account.bank.statement.line" name="bank_compute_share_init"/>
+    </data>
+</odoo>

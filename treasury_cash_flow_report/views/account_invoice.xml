@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record model="ir.ui.view" id="account_invoice_supplier_tree_treasury_3">
+        <field name="name">account.invoice.supplier.tree.treasury</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_form"/>
+        <field name="arch" type="xml">
+            <field name="date_invoice" position="after">
+              <field name="cf_share"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="account_invoice_form_various_edits_3">
+        <field name="name">account.invoice.form.various.edits</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+            <field name="date_invoice" position="after">
+              <field name="cf_share"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
