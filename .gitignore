@@ -1,6 +1,5 @@
-parts/CAMILL*
-parts/j*
-parts/OCA*
-parts/odoo*
-parts/partner*
-parts/serv*
+.DS_Store
+*.pyc
+*.pyo
+*.~*
+*.mo
