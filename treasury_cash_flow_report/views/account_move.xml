@@ -10,9 +10,6 @@
           <field name="date_maturity" position="after">
             <field name="balance"/>
             <field name="amount_residual"/>
-            <field name="treasury_date"/>
-            <field name="treasury_planning"/>
-            <field name="forecast_id"/>
             <field name="cf_share"/>
           </field>
       </field>
@@ -27,9 +24,6 @@
           <field name="date_maturity" position="after">
             <field name="balance"/>
             <field name="amount_residual"/>
-            <field name="treasury_date"/>
-            <field name="treasury_planning"/>
-            <field name="forecast_id"/>
             <field name="cf_share"/>
           </field>
       </field>

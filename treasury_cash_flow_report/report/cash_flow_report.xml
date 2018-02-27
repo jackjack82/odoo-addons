@@ -23,6 +23,6 @@
 
     <menuitem name="Cash flow report" action="action_cash_flow_report2"
       id="menu_cash_flow_report"
-      parent="menu_treasury_management_reporting" sequence="10"/>
+      parent="account.menu_finance_reports" sequence="10"/>
 
 </odoo>

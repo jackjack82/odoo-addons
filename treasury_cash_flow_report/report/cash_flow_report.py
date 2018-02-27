@@ -15,7 +15,6 @@ class CashFlowReport(models.Model):
     name = fields.Char(string='Label', readonly=True)
     date = fields.Date('Date', readonly=True)
     value = fields.Float('Amount', readonly=True)
-    cf_forecast = fields.Boolean(string='From forecast', readonly=True)
     cf_reconciled = fields.Boolean(string='Reconc.', readonly=True)
     account_id = fields.Many2one(
         comodel_name='account.account',
@@ -58,7 +57,6 @@ class CashFlowReport(models.Model):
         	    absl.partner_id as partner_id,
     	        absl.journal_id as journal_id,
     	        absl.cf_reconciled as cf_reconciled,
-    	        absl.cf_forecast as cf_forecast,
                 aa.name as account_name
 
         """.format(self.env['res.currency']._select_companies_rates())
@@ -88,7 +86,6 @@ class CashFlowReport(models.Model):
         	    absl.cf_share,
         	    absl.account_id,
     	        absl.cf_reconciled,
-    	        absl.cf_forecast,
         	    s.share,
         	    s.key,
                 aa.name

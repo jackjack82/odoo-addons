@@ -4,10 +4,10 @@
 
 
 {
-    'name': 'Treasury Management',
+    'name': 'Cash flow report',
     'version': '10.0.1.0',
     'description': """
-            Addding treasury management features Odoo
+            Adding cash flow report to accounting report
         """,
     'author': 'Giacomo Grasso - giacomo.grasso.82@gmail.com',
     'maintainer': '',
