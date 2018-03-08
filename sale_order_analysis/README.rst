@@ -3,14 +3,13 @@
    :alt: License: AGPL-3
 
 ========================
-Invoice Client Account
+Sale Order Analysis
 ========================
 
-This module adds a Company bank account to the partner.
-This account is automatically set on the invoice form and added to the printed invoice.
-
-This modules also adds a client bank account field to the invoice.
-If filled, the client's bank account is printed.
+This module computes:
+- invoiced amount per invoice line
+- total invoiced and to be invoiced on order
+- total paid and to be paid on order
 
 
 Bug Tracker
