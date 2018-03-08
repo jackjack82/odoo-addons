@@ -1,9 +1,10 @@
 # coding: utf-8
-#   @author Giacom Grassso <giacomo.grasso.82@gmail.com>
+#   @author Giacom Grasso <giacomo.grasso.82@gmail.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api
 import odoo.addons.decimal_precision as dp
+
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
@@ -11,43 +12,36 @@ class SaleOrder(models.Model):
     order_amount_invoiced = fields.Float(
         compute='_get_order_invoice_amount',
         string='Invoiced',
-        store=True,
-        digits=dp.get_precision('Product Price'))
+        store=True)
 
     order_amount_to_invoice = fields.Float(
         compute='_get_order_invoice_amount',
         string='To Invoice',
-        store=True,
-        digits=dp.get_precision('Product Price'))
+        store=True)
 
     order_amount_paid = fields.Float(
         compute='_get_order_paid_amount',
         string='Paid',
-        store=True,
-        digits=dp.get_precision('Product Price'))
+        store=True)
 
     order_amount_to_pay = fields.Float(
         compute='_get_order_paid_amount',
         string='To be paid',
-        store=True,
-        digits=dp.get_precision('Product Price'))
+        store=True)
 
     # key sale orders indicators
     invoiced_on_ordered = fields.Float(
         compute='_get_indicators',
         string='Inv/Ord',
-        store=True,
-        digits=dp.get_precision('Product Price'))
+        store=True)
     paid_on_ordered = fields.Float(
         compute='_get_indicators',
         string='Paid/Ord',
-        store=True,
-        digits=dp.get_precision('Product Price'))
+        store=True)
     paid_on_invoiced = fields.Float(
         compute='_get_indicators',
         string='Paid/Inv',
-        store=True,
-        digits=dp.get_precision('Product Price'))
+        store=True)
 
     @api.multi
     @api.depends('amount_total', 'order_amount_invoiced', 'order_amount_paid')
@@ -83,8 +77,7 @@ class SaleOrder(models.Model):
             order.order_amount_invoiced = amount_invoiced
             order.order_amount_to_invoice = amount_to_invoice
 
-    @api.multi
-    @api.depends('invoice_ids.move_id.line_ids.amount_residual')
+    @api.depends('invoice_ids.move_id.line_ids.amount_residual', 'order_line')
     def _get_order_paid_amount(self):
         """
         Compute the total amount paid and the remaining amount
@@ -93,16 +86,9 @@ class SaleOrder(models.Model):
             amount_paid = 0.0
 
             for invoice in order.invoice_ids:
-                to_pay = 0.0
                 for line in invoice.move_id.line_ids:
                     if line.account_id == invoice.account_id:
-                            to_pay += line.amount_residual
-                amount_paid += invoice.amount_total - to_pay if to_pay > 0 else 0
+                        amount_paid += line.debit - line.amount_residual
 
-            if amount_paid > 0:
-                order.order_amount_paid = amount_paid
-                order.order_amount_to_pay = order.amount_total - amount_paid
-
-            if amount_paid == 0:
-                order.order_amount_to_pay = order.amount_total
-                order.order_amount_paid = 0
+            order.order_amount_paid = amount_paid
+            order.order_amount_to_pay = order.amount_total - amount_paid
