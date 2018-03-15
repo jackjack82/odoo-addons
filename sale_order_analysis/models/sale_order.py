@@ -85,10 +85,12 @@ class SaleOrder(models.Model):
         for order in self:
             amount_paid = 0.0
 
-            for invoice in order.invoice_ids:
-                for line in invoice.move_id.line_ids:
-                    if line.account_id == invoice.account_id:
-                        amount_paid += line.debit - line.amount_residual
+            for order in self:
+                amount_paid = 0.0
 
-            order.order_amount_paid = amount_paid
-            order.order_amount_to_pay = order.amount_total - amount_paid
+                for invoice in order.invoice_ids:
+                    if invoice.move_id:
+                        amount_paid += invoice.amount_total - invoice.residual
+
+                order.order_amount_paid = amount_paid
+                order.order_amount_to_pay = order.amount_total - amount_paid
