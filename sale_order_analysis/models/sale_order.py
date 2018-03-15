@@ -77,20 +77,18 @@ class SaleOrder(models.Model):
             order.order_amount_invoiced = amount_invoiced
             order.order_amount_to_invoice = amount_to_invoice
 
-    @api.depends('invoice_ids.move_id.line_ids.amount_residual', 'order_line')
+    @api.depends('invoice_ids.residual', 'order_line')
     def _get_order_paid_amount(self):
         """
         Compute the total amount paid and the remaining amount
         """
+
         for order in self:
             amount_paid = 0.0
 
-            for order in self:
-                amount_paid = 0.0
+            for invoice in order.invoice_ids:
+                if invoice.move_id:
+                    amount_paid += invoice.amount_total - invoice.residual
 
-                for invoice in order.invoice_ids:
-                    if invoice.move_id:
-                        amount_paid += invoice.amount_total - invoice.residual
-
-                order.order_amount_paid = amount_paid
-                order.order_amount_to_pay = order.amount_total - amount_paid
+            order.order_amount_paid = amount_paid
+            order.order_amount_to_pay = order.amount_total - amount_paid
