@@ -9,6 +9,10 @@ import odoo.addons.decimal_precision as dp
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    # overriding invoice_ids to make it searcheable
+
+    invoice_ids = fields.Many2many("account.invoice", string='Invoices', compute="_get_invoiced",
+                                   readonly=True, copy=False, search='_search_invoice_ids')
     order_amount_invoiced = fields.Float(
         compute='_get_order_invoice_amount',
         string='Invoiced',
@@ -42,6 +46,11 @@ class SaleOrder(models.Model):
         compute='_get_indicators',
         string='Paid/Inv',
         store=True)
+
+    def _search_invoice_ids(self, operator, value):
+        invoices = self.mapped('order_line.invoice_lines.invoice_id').filtered(
+            lambda r: r.type in ['out_invoice', 'out_refund'])
+        return [('id', 'in', invoices.ids)]
 
     @api.multi
     @api.depends('amount_total', 'order_amount_invoiced', 'order_amount_paid')
