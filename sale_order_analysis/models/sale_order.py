@@ -24,14 +24,18 @@ class SaleOrder(models.Model):
         store=True)
 
     order_amount_paid = fields.Float(
-        compute='_get_order_paid_amount',
+        #compute='_get_order_paid_amount',
         string='Paid',
-        store=True)
+        readonly=True
+        #store=True
+        )
 
     order_amount_to_pay = fields.Float(
-        compute='_get_order_paid_amount',
+        # compute='_get_order_paid_amount',
         string='To be paid',
-        store=True)
+        readonly=True
+        #store=True
+        )
 
     # key sale orders indicators
     invoiced_on_ordered = fields.Float(
@@ -86,7 +90,15 @@ class SaleOrder(models.Model):
             order.order_amount_invoiced = amount_invoiced
             order.order_amount_to_invoice = amount_to_invoice
 
-    @api.depends('invoice_ids.residual', 'order_line')
+    @api.multi
+    def write(self, vals):
+        res = super(SaleOrder, self).write(vals)
+        for order in self:
+            if vals.get('order_line', False):
+                order._get_order_paid_amount()
+        return res
+
+    @api.multi
     def _get_order_paid_amount(self):
         """
         Compute the total amount paid and the remaining amount
@@ -99,5 +111,13 @@ class SaleOrder(models.Model):
                 if invoice.move_id:
                     amount_paid += invoice.amount_total - invoice.residual
 
+            ord = self.env['sale.order'].browse(order.id)
+            ord.write({
+                'order_amount_paid': amount_paid,
+                'order_amount_to_pay': ord.amount_total - amount_paid,
+            })
+
+            """            
             order.order_amount_paid = amount_paid
             order.order_amount_to_pay = order.amount_total - amount_paid
+            """
