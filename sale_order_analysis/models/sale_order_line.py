@@ -24,10 +24,11 @@ class SaleOrderLine(models.Model):
 
     @api.multi
     @api.depends('invoice_lines.invoice_id.state',
-                 'invoice_lines.quantity',
-                 'product_uom_qty',
-                 'price_unit',
-                 'tax_id',
+                 'invoice_lines.price_subtotal',
+                 # 'product_uom_qty',
+                 # 'price_unit',
+                 # 'tax_id',
+                 'price_subtotal',
                  )
     def _get_invoice_amount(self):
         """
@@ -38,8 +39,9 @@ class SaleOrderLine(models.Model):
             amount_invoiced = 0.0
             for invoice_line in order_line.invoice_lines:
                 if invoice_line.invoice_id.state != 'cancel':
+                    price_unit = invoice_line.price_unit * (1 - (invoice_line.discount or 0.0) / 100.0)
                     tax_list = invoice_line.invoice_line_tax_ids.compute_all(
-                        invoice_line.price_unit,
+                        price_unit,
                         invoice_line.invoice_id.currency_id,
                         invoice_line.quantity,
                         invoice_line.product_id,
