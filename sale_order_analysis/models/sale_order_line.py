@@ -39,11 +39,10 @@ class SaleOrderLine(models.Model):
             amount_invoiced = 0.0
             for invoice_line in order_line.invoice_lines:
                 if invoice_line.invoice_id.state != 'cancel':
-                    price_unit = invoice_line.price_unit * (1 - (invoice_line.discount or 0.0) / 100.0)
                     tax_list = invoice_line.invoice_line_tax_ids.compute_all(
-                        price_unit,
+                        invoice_line.price_subtotal,
                         invoice_line.invoice_id.currency_id,
-                        invoice_line.quantity,
+                        1,
                         invoice_line.product_id,
                         invoice_line.invoice_id.partner_id)['taxes']
                     taxes = 0.0
