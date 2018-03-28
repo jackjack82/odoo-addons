@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record model="ir.ui.view" id="sequence_integrity_check_form_view">
+        <field name="name">sequence.integrity.check.form.view</field>
+        <field name="model">sequence.integrity.check</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="sequence_integrity_check"
+                            string="Check Sequence" type="object" />
+                    <field name="status" widget="statusbar" clickable="True"/>
+               </header>
+                <sheet>
+                    <group>
+                        <field name="sequence_id"/>
+                        <field name="object_id"/>
+                        <field name="field_id"/>
+                        <field name="date_field"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="last_check"/>
+
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+          <!-- Financial Planning menu-->
+    <act_window id="action_sequence_integrity_check"
+      name="Sequence Integrity Check"
+      res_model="sequence.integrity.check"
+      view_mode="tree,form"/>
+
+    <menuitem id='menu_sequence_integrity_check'
+      string='Sequence Integrity Check'
+      parent="account.menu_finance_entries"
+      action="action_sequence_integrity_check"
+      sequence='800'/>
+
+</odoo>
