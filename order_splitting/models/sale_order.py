@@ -1,5 +1,5 @@
 # coding: utf-8
-# @author Giacom Grasso <giacomo.grasso.82@gmail.com>
+# @author Giacomo Grasso <giacomo.grasso.82@gmail.com>
 
 from odoo import models, fields, api
 
@@ -11,3 +11,9 @@ class SaleOrder(models.Model):
         string='Split lines',
         help="If flagged, at invoice validation, order lines that have been invoiced are split."
              "The open amount of each line is moved into a new line")
+
+
+    @api.multi
+    def action_invoice_create(self, grouped=False, final=False, partial=False):
+        res = super(SaleOrder, self)._prepare_invoice()
+
