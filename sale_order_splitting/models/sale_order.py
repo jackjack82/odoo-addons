@@ -13,7 +13,3 @@ class SaleOrder(models.Model):
              "The open amount of each line is moved into a new line")
 
 
-    @api.multi
-    def action_invoice_create(self, grouped=False, final=False, partial=False):
-        res = super(SaleOrder, self)._prepare_invoice()
-

@@ -1,9 +1,11 @@
 
 ========================
-Sale and Purcahse order splitting
+Sale order splitting
 ========================
 
-This module allows users to split sale and purchase order lines at invoice validation.
+This module allows users to split sale order lines at invoice validation.
+The original order line gets the amount and value of the related invoice line,
+while a new line is set with the amount remained.
 
 
 Bug Tracker

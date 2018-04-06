@@ -11,8 +11,11 @@
             <xpath expr="/form/group" position="after">
                 <group>
                     <field name="invoice_line_ids"
-                           attrs="{'invisible':[('advance_payment_method', '!=', 'lines_selection')]}">
+                           attrs="{'invisible':[('advance_payment_method', '!=', 'lines_selection')]}"
+                           options="{'no_create': True}">
                         <tree editable="True">
+                            <field name="name"/>
+                            <field name="line_id" invisible="1"/>
                             <field name="qty_invoiced" readonly="True"/>
                             <field name="price_invoiced" readonly="True"/>
                             <field name="qty_to_invoice"/>

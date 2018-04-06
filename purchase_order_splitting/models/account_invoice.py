@@ -9,55 +9,49 @@ class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
     """
-    When an invoice is edited, the related sale orders indicators are updated
+    When an invoice is edited, the related purchase order lines are split
     """
 
     @api.multi
     def action_invoice_open(self):
         res = super(AccountInvoice, self).action_invoice_open()
 
-        # if it is a purchase invoice, edit the related purchase order line
-        po_lines = self.mapped('invoice_line_ids.purchase_line_id')
-        for line in po_lines:
+        order_lines = self.mapped('invoice_line_ids.purchase_line_id')
+        line_obj = self.env['purchase.order.line']
+
+        # split each order line if the order is set as "split lines"
+        for line in order_lines:
             if not line.order_id.split_lines:
                 continue
-            line_obj = self.env['purchase.order.line']
 
             # we create a new line with the amount not yet invoiced
-            uninvoiced_amount = line.product_qty - line.qty_invoiced
-            if uninvoiced_amount == 0:
+            invoiced_amount = line.invoice_lines[0].price_subtotal
+            invoiced_price = line.invoice_lines[0].price_unit
+            uninvoiced_amount = line.price_subtotal - invoiced_amount
+            open_qty = line.product_qty - line.qty_invoiced
+            if uninvoiced_amount <= 0 or open_qty <= 0:
                 continue
+            price_unit = uninvoiced_amount / open_qty
+
             taxes = [tax.id for tax in line.taxes_id]
             new_line_data = ({
                 'name': line.name,
-                'product_qty': uninvoiced_amount,
-                'date_planned': line.date_planned,
-                'taxes_id': [(4, taxes)],
                 'product_uom': line.product_uom.id,
-                'price_unit': line.price_unit,
+                'price_unit': price_unit,
                 'product_id': line.product_id.id,
                 'order_id': line.order_id.id,
+                'taxes_id': [(4, taxes)],
+                'product_qty': open_qty,
+                'date_planned': line.date_planned,
                 'account_analytic_id': line.account_analytic_id,
             })
+
             line_obj.create(new_line_data)
 
             # in the old line we set the ordered amount equal to the invoiced amount
             line.product_qty = line.qty_invoiced
+            line.price_unit = invoiced_price
             if line.product_id.type not in ['consu', 'product']:
                 line.qty_received = line.qty_invoiced
 
         return res
-
-        """
-        # if it is a sale invoice, edit the related sale order lines
-        so_lines = self.mapped('invoice_line_ids.sale_line_ids.order_id')
-        for order in so_lines:
-            amount_paid, amount_unpaid = order._get_order_paid_amount()
-
-            order.write({
-                'order_amount_paid': amount_paid,
-                'order_amount_to_pay': order.amount_total - amount_paid,
-            })
-
-        return res
-        """
