@@ -14,6 +14,7 @@
         'sale',
         ],
     'data': [
+        'views/product_template.xml',
         'views/sale_order.xml',
         'wizard/sale_advance_payment_inv.xml',
     ],

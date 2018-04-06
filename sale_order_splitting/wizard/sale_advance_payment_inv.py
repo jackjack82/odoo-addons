@@ -14,6 +14,7 @@ class SaleAdvancePaymentInvLines(models.TransientModel):
     qty_to_invoice = fields.Float(string="Qty to Inv.")
     price_invoiced = fields.Float(string="Price Inv.")
     price_to_invoice = fields.Float(string="Price to Inv.")
+    split_lines = fields.Boolean(related="wizard_id.split_lines")
 
 
 class SaleAdvancePaymentInv(models.TransientModel):
@@ -26,6 +27,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
         comodel_name="sale.advance.payment.inv.line",
         inverse_name="wizard_id",
         string="Lines")
+    split_lines = fields.Boolean("Split lines")
 
     @api.onchange('advance_payment_method')
     def onchange_line_ids(self):
@@ -47,6 +49,9 @@ class SaleAdvancePaymentInv(models.TransientModel):
                     }))
 
             self.update({'invoice_line_ids': line_ids})
+
+            # from sale order inherit the "split lines" boolean. if false, prices are not editable
+            self.split_lines = sale_orders[0].split_lines
 
     @api.multi
     def create_invoices(self):

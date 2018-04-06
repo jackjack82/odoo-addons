@@ -11,6 +11,7 @@
     'depends': [
         'account',
         'purchase',
+        'sale_order_splitting',
         'sale',
         ],
     'data': [

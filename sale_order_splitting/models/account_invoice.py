@@ -2,7 +2,8 @@
 # @author Giacomo Grasso <giacomo.grasso.82@gmail.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 
 
 class AccountInvoice(models.Model):
@@ -16,10 +17,16 @@ class AccountInvoice(models.Model):
     def action_invoice_open(self):
         res = super(AccountInvoice, self).action_invoice_open()
 
+        # for managing rounding problems we store the original total amount of orders
+        orders = self.mapped('invoice_line_ids.sale_line_ids.order_id')
+        ord_orig_amount = {}
+        for order in orders:
+            ord_orig_amount[order.id] = order.amount_total
+
+        # split each order line if the order is set as "split lines"
         order_lines = self.mapped('invoice_line_ids.sale_line_ids')
         line_obj = self.env['sale.order.line']
 
-        # split each order line if the order is set as "split lines"
         for line in order_lines:
             if not line.order_id.split_lines:
                 continue
@@ -44,13 +51,33 @@ class AccountInvoice(models.Model):
                 'discount': line.discount,
                 'product_uom_qty': open_qty,
             })
-
             line_obj.create(new_line_data)
 
-            # in the old line we set the ordered amount equal to the invoiced amount
-            line.product_uom_qty = line.qty_invoiced
+            # the original order line is updated
             line.price_unit = invoiced_price
-            if line.product_id.type not in ['consu', 'product']:
-                line.qty_received = line.qty_invoiced
+            line.product_uom_qty = line.qty_invoiced
+
+            # once lines are split, there might be order total difference.
+            # we compare the original and new amount, we offset the difference in a specific line
+            for order in orders:
+                round_prod = self.env['product.product'].search([('rounding_product', '=', '1')])
+                diff = ord_orig_amount.get(order.id, False) - order.amount_total
+                if not diff:
+                    continue
+                rounding_line = order.order_line.product_id.filtered(lambda r: r.rounding_product)
+                if rounding_line[0]:
+                    rounding_line[0].price_unit += diff
+
+                # if there is a difference in old and new totals, a new line is created
+                if not round_prod[0] or round_prod[0].type != 'service':
+                    raise UserError(_('Please define a product for rounding. It must be a service.'))
+                round_line = ({
+                    'name': _('Rounding'),
+                    'product_id': round_prod[0].id,
+                    'product_uom': round_prod[0].uom_id.id,
+                    'price_unit': diff,
+                    'order_id': order.id,
+                })
+                line_obj.create(round_line)
 
         return res
