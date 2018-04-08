@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+<data>
+
+    <record model="ir.ui.view" id="sale_advance_payment_inv_form_view_add_lines_selection">
+        <field name="name">sale.advance.payment.inv.form.add.lines.selection</field>
+        <field name="model">sale.advance.payment.inv</field>
+        <field name="inherit_id" ref="sale.view_sale_advance_payment_inv"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form/group" position="after">
+                <group>
+                    <field name="split_lines" invisible="True"/>
+                    <field name="invoice_line_ids"
+                           attrs="{'invisible':[('advance_payment_method', '!=', 'lines_selection')]}"
+                           options="{'no_create': True}">
+                        <tree editable="True">
+                            <field name="wizard_id" invisible="1"/>
+                            <field name="split_lines" invisible="1"/>
+                            <field name="name"/>
+                            <field name="line_id" invisible="1"/>
+                            <field name="qty_invoiced" readonly="True"/>
+                            <field name="price_invoiced" readonly="True"/>
+                            <field name="qty_to_invoice"/>
+                            <field name="price_to_invoice"
+                                   attrs="{'readonly':[('split_lines', '!=', True)]}"/>
+                        </tree>
+                    </field>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+
+
+</data>
+</odoo>
