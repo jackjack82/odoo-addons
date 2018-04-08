@@ -74,6 +74,10 @@ class SaleAdvancePaymentInv(models.TransientModel):
                     })
                 else:
                     line.unlink()
+
+            # after deleting invoice lines it is required to compute taxes again
+            invoice.compute_taxes()
+
             if self._context.get('open_invoices', False):
                 return orders.action_view_invoice()
             return {'type': 'ir.actions.act_window_close'}

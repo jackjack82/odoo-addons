@@ -23,7 +23,7 @@
                             <field name="price_invoiced" readonly="True"/>
                             <field name="qty_to_invoice"/>
                             <field name="price_to_invoice"
-                                   attrs="{'readonly':[('split_lines', '!=', '1')]}"/>
+                                   attrs="{'readonly':[('split_lines', '!=', True)]}"/>
                         </tree>
                     </field>
                 </group>
