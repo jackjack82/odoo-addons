@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+<data>
+        <record id="mass_edit_calendar_event_wizard" model="ir.ui.view">
+            <field name="name">Edit events</field>
+            <field name="model">calendar.event.mass.edit</field>
+            <field name="arch" type="xml">
+                <form string="Edit fields">
+                    <group colspan="2">
+                      <field name="allday"/>
+                      <field name="start_date"/>
+                      <field name="event_status"/>
+                    </group>
+                    <footer>
+                        <button name="button_edit_data"
+                                string="Confirm"
+                                type="object"
+                                class="oe_highlight" />
+                        or
+                        <button special="cancel"
+                                string="_Cancel"
+                                class="oe_link" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_mass_edit_calendar_event"
+                    name="Edit events"
+                    res_model="calendar.event.mass.edit"
+                    src_model="calendar.event"
+                    view_type="form"
+                    view_mode="form"
+                    multi="True"
+                    view_id="mass_edit_calendar_event_wizard"
+                    target="new" />
+</data>
+</odoo>

@@ -3,45 +3,49 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api
-import odoo.addons.decimal_precision as dp
 
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    # overriding invoice_ids to make it searcheable
+
     order_amount_invoiced = fields.Float(
         compute='_get_order_invoice_amount',
         string='Invoiced',
-        store=True)
+        store=True,
+        copy=False)
 
     order_amount_to_invoice = fields.Float(
         compute='_get_order_invoice_amount',
         string='To Invoice',
-        store=True)
+        store=True,
+        copy=False)
 
     order_amount_paid = fields.Float(
-        compute='_get_order_paid_amount',
         string='Paid',
-        store=True)
+        copy=False)
 
     order_amount_to_pay = fields.Float(
-        compute='_get_order_paid_amount',
         string='To be paid',
-        store=True)
+        copy=False)
 
     # key sale orders indicators
     invoiced_on_ordered = fields.Float(
         compute='_get_indicators',
         string='Inv/Ord',
-        store=True)
+        store=True,
+        copy=False)
     paid_on_ordered = fields.Float(
         compute='_get_indicators',
         string='Paid/Ord',
-        store=True)
+        store=True,
+        copy=False)
     paid_on_invoiced = fields.Float(
         compute='_get_indicators',
         string='Paid/Inv',
-        store=True)
+        store=True,
+        copy=False)
 
     @api.multi
     @api.depends('amount_total', 'order_amount_invoiced', 'order_amount_paid')
@@ -77,18 +81,29 @@ class SaleOrder(models.Model):
             order.order_amount_invoiced = amount_invoiced
             order.order_amount_to_invoice = amount_to_invoice
 
-    @api.depends('invoice_ids.move_id.line_ids.amount_residual', 'order_line')
-    def _get_order_paid_amount(self):
-        """
-        Compute the total amount paid and the remaining amount
-        """
+    @api.multi
+    def write(self, vals):
         for order in self:
-            amount_paid = 0.0
+            if vals.get('order_line', order.order_line):
+                # vals['amount_paid'], vals['amount_unpaid'] = order._get_order_paid_amount()
+                amount_paid, amount_unpaid = order._get_order_paid_amount()
 
-            for invoice in order.invoice_ids:
-                for line in invoice.move_id.line_ids:
-                    if line.account_id == invoice.account_id:
-                        amount_paid += line.debit - line.amount_residual
+                vals['order_amount_paid'] = amount_paid
+                vals['order_amount_to_pay'] = order.amount_total - amount_paid
 
-            order.order_amount_paid = amount_paid
-            order.order_amount_to_pay = order.amount_total - amount_paid
+        return super(SaleOrder, self).write(vals)
+
+    @api.multi
+    def _get_order_paid_amount(self):
+        """Compute the total amount paid and the remaining amount"""
+        self.ensure_one()
+
+        amount_paid = 0.0
+
+        for invoice in self.invoice_ids:
+            if invoice.move_id:
+                amount_paid += invoice.amount_total - invoice.residual
+        amount_unpaid = self.amount_total - amount_paid
+
+        return amount_paid, amount_unpaid
+

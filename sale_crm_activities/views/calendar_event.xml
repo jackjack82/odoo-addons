@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+<data>
+
+    <record model="ir.ui.view" id="view_calendar_event_tree_editable_button">
+        <field name="name">view.calendar.event.tree.editable.button</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
+        <field name="model">calendar.event</field>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="opportunity_id"/>
+                <field name="partner_id" readonly="True"/>
+                <field name="description"/>
+            </field>
+            <field name="location" position="after">
+                <field name="duration_text"/>
+                <field name="event_status"/>
+                <button name="open_full_record"
+                        string="Apri"
+                        type="object"/>
+            </field>
+                <field name="duration" position="attributes">
+                    <attribute name="invisible">True</attribute></field>
+                <field name="start" position="attributes">
+                    <attribute name="invisible">True</attribute></field>
+                <field name="stop" position="attributes">
+                    <attribute name="invisible">True</attribute></field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_calendar_event_search_crm_activities">
+        <field name="name">view.calendar.event.search.crm.activities</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_search"/>
+        <field name="model">calendar.event</field>
+        <field name="arch" type="xml">
+            <field name="privacy" position="after">
+                <field name="event_status"/>
+                <filter string="New" name="event_after_today"
+                        domain="['|',('start_date','>=', ((context_today()).strftime('%Y-%m-%d'))),
+                        ('start_datetime','>=', ((context_today()).strftime('%Y-%m-%d')))]"/>
+                <filter string="Old" name="event_before_today"
+                        domain="['|',('start_date','&lt;', ((context_today()).strftime('%Y-%m-%d'))),
+                        ('start_datetime','&lt;', ((context_today()).strftime('%Y-%m-%d')))]"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_calendar_event_form_add_fields">
+        <field name="name">view.calendar.event.form.add.fields</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet" position="before" >
+                <header>
+                    <field name="event_status" widget="statusbar" clickable="True"/>
+                </header>
+            </xpath>
+            <field name="start_datetime" position="after">
+                <field name="opportunity_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="action_calendar_events_crm_activities" model="ir.actions.act_window">
+        <field name="name">Activities</field>
+        <field name="res_model">calendar.event</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem id='menu_calendar_events_crm_activities'
+      string='Activities'
+      parent="sales_team.menu_sales"
+      action="action_calendar_events_crm_activities"
+      sequence='100'/>
+
+</data>
+</odoo>

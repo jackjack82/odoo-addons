@@ -14,8 +14,8 @@
             <xpath expr="//group[@name='sale_pay']" position="inside">
               <field name="order_amount_invoiced"/>
               <field name="order_amount_to_invoice"/>
-              <field name="order_amount_paid"/>
-              <field name="order_amount_to_pay"/>
+              <field name="order_amount_paid" readonly="1"/>
+              <field name="order_amount_to_pay" readonly="1"/>
               <field name="invoiced_on_ordered"/>
               <field name="paid_on_ordered"/>
               <field name="paid_on_invoiced"/>
