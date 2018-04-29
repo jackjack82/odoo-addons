@@ -11,7 +11,7 @@ class SaleOrderPaymentPlan(models.Model):
     sequence = fields.Integer(string='Sequence', default=10)
 
     sale_order_id = fields.Many2one('sale.order', string='Sale Order')
-
+    partner_id = fields.Many2one(related='sale_order_id.partner_id', string='Client', store=True)
     date = fields.Date(string='Due date', required=True)
     currency_id = fields.Many2one("res.currency", string="Currency", readonly=True, required=True,
                                   default=lambda self: self.env.user.company_id.currency_id)
@@ -19,9 +19,3 @@ class SaleOrderPaymentPlan(models.Model):
     amount = fields.Monetary(string='Amount', required=True, track_visibility='always')
     residual = fields.Monetary(string='Residual Amount', default=lambda self: self.amount)
     reconciled = fields.Boolean(string='Payment Reconciled')
-
-    @api.onchange('amount')
-    def _onchange_amount(self):
-        for record in self:
-            if record.amount and record.residual == 0.0:
-                record.residual = record.amount
