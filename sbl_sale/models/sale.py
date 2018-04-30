@@ -18,7 +18,9 @@ class SaleOrder(models.Model):
         sale = super(SaleOrder, self).write(vals)
         if self.payment_plan_ids and not self._context.get('uncheck'):
             if self.payment_plan_amount != self.amount_total:
-                raise ValidationError(_('Payment plan amount {} differ from Sale Order total amount {}'.format(self.payment_plan_amount, self.amount_total)))
+                raise ValidationError(_('Payment plan amount {} differ from Sale'
+                                        ' Order total amount {}'.format(
+                    self.payment_plan_amount, self.amount_total)))
 
         self._compute_payment_plan_reconcile()
 
@@ -29,23 +31,19 @@ class SaleOrder(models.Model):
         for order in self.with_context(uncheck=True):
 
             # remove existing payment terms
-            rm = []
-            for trm in order.payment_plan_ids:
-                rm.append((2, trm.id))
-            order.update({'payment_plan_ids': rm})
+            terms_list = [(5, 0, {})]
 
             # creating new payment terms
             due_list = order.payment_plan_id.compute(
                 order.amount_total, order.date_order)[0]
 
-            terms_list = []
             for term in due_list:
                 terms_list.append((0, 0, {
                     'date': term[0],
                     'amount': term[1],
                     'residual': term[1],
                     'payment_term_id': order.payment_term_id.id,
-                }))
+                    }))
             order.update({'payment_plan_ids': terms_list})
 
             # compute again the residual of each line
