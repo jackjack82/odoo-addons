@@ -1,0 +1,82 @@
+<odoo>
+    <data>
+        <record id="payment_plan_analysis_pivot" model="ir.ui.view">
+            <field name="name">payment.plan.analysis.pivot</field>
+            <field name="model">sale.order.payment.plan.analysis.details</field>
+            <field name="arch" type="xml">
+                <pivot>
+                    <field name="name" type="row"/>
+                    <field name="residual" type="measure"/>
+                    <field name="date_due" type="col"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="payment_plan_analysis_intervals_pivot" model="ir.ui.view">
+            <field name="name">payment.plan.analysis.intervals.pivot</field>
+            <field name="model">sale.order.payment.plan.analysis.details</field>
+            <field name="arch" type="xml">
+                <pivot>
+                    <field name="name" type="row"/>
+                    <field name="residual" type="measure"/>
+                    <field name="days" type="col"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="payment_plan_analysis_search" model="ir.ui.view">
+            <field name="name">payment.plan.analysis.search</field>
+            <field name="model">sale.order.payment.plan.analysis.details</field>
+            <field name="arch" type="xml">
+                <search>
+                    <group>
+                        <filter name="name" string="Name" domain="[]" context="{'group_by': 'name'}"/>
+                        <filter name="residual" string="Residual" domain="[]" context="{'group_by': 'residual'}"/>
+                        <filter name="date_due" string="Date" domain="[]" context="{'group_by': 'date_due'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="payment_analysis_form" model="ir.ui.view">
+            <field name="name">payment.form</field>
+            <field name="model">sale.order.payment.plan.analysis</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group colspan="2">
+                        <field name="payment_plan_selection"/>
+                    </group>
+                    <group colspan="2">
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group col="2" colspan="4">
+                        <field name="intervals" attrs="{'invisible':[('payment_plan_selection','not in','payment_order_analysis_intervals')]}"/>
+                    </group>
+                    <footer>
+                        <button type="object" name="analysis_upload" string="Order Analysis"
+                                class="btn btn-primary" attrs="{'invisible':[('payment_plan_selection','not in','payment_order_analysis')]}"/>
+                        <button type="object" name="upload_intervals" string="ORDER ANALYSIS INTERVALS" class="btn btn-primary" attrs="{'invisible':[('payment_plan_selection','not in','payment_order_analysis_intervals')]}"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_payment_plan"
+                    name="Payment Plan Analysis"
+                    res_model="sale.order.payment.plan.analysis"
+                    view_mode="form"
+                    view_type="form"
+                    target="new"/>
+
+        <record id="action_payment_plan_analysis" model="ir.actions.act_window">
+            <field name="name">Payment Plan Analysis</field>
+            <field name="res_model">sale.order.payment.plan.analysis.details</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">search</field>
+        </record>
+
+        <menuitem id="menu_payment_plan_analysis" parent="sales_team.menu_sale_report" string="Payment Plan Analysis"
+                  action="action_payment_plan"/>
+    </data>
+</odoo>
