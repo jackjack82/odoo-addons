@@ -7,20 +7,56 @@ from odoo.exceptions import ValidationError
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    payment_plan_ids = fields.One2many('sale.order.payment.plan', 'sale_order_id',
-                                       string='Payment Plan', ondelete='cascade')
-    payment_plan_amount = fields.Monetary(string='Payment Plan Amount', compute='_compute_payment_plan_amount')
-    payment_plan_residual = fields.Monetary(string='Payment Plan Residual', compute='_compute_payment_plan_residual')
-
-    payment_plan_amount_total = fields.Monetary(related='amount_total', readonly=True)
+    payment_plan_id = fields.Many2one(
+        comodel_name='account.payment.term', string='Payment plan')
+    payment_plan_ids = fields.One2many(
+        'sale.order.payment.plan', 'sale_order_id',
+        string='Payment Plan', ondelete='cascade')
+    payment_plan_amount = fields.Monetary(
+        string='Payment Plan Amount', compute='_compute_payment_plan_amount')
+    payment_plan_residual = fields.Monetary(
+        string='Payment Plan Residual', compute='_compute_payment_plan_residual')
+    payment_plan_amount_total = fields.Monetary(
+        related='amount_total', readonly=True)
 
     @api.multi
     def write(self, vals):
-        sale = super(SaleOrder,self).write(vals)
+        sale = super(SaleOrder, self).write(vals)
         if self.payment_plan_ids:
-            if self.payment_plan_amount != self.amount_total and self.env.context.get('payment_plan_validation', True):
-                raise ValidationError(_('Payment plan amount {} differ from Sale Order total amount {}'.format(self.payment_plan_amount, self.amount_total)))
+            if (self.payment_plan_amount != self.amount_total and
+                    self.env.context.get('payment_plan_validation', True)):
+                raise ValidationError(_('Payment plan amount {} differ from '
+                                        'Sale Order total amount {}'.format(
+                                            self.payment_plan_amount, self.amount_total)))
+
+        # in case of changes to the SO we recompute the reconciliation
+        if any([i in ['payment_plan_ids', 'amount_untaxed'] for i in vals]):
+            self._compute_payment_plan_reconcile()
+
         return sale
+
+    @api.multi
+    def compute_payment_deadlines(self):
+        for order in self.with_context(uncheck=True):
+
+            # remove existing payment terms
+            terms_list = [(5, 0, {})]
+
+            # creating new payment terms
+            due_list = order.payment_plan_id.compute(
+                order.amount_total, order.date_order)[0]
+
+            for term in due_list:
+                terms_list.append((0, 0, {
+                    'date': term[0],
+                    'amount': term[1],
+                    'residual': term[1],
+                    'payment_term_id': order.payment_term_id.id,
+                    }))
+            order.update({'payment_plan_ids': terms_list})
+
+            # compute again the residual of each line
+            order._compute_payment_plan_reconcile()
 
     @api.depends('payment_plan_ids.amount')
     def _compute_payment_plan_amount(self):
