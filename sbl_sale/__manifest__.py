@@ -11,12 +11,10 @@
     'website': "",
     'category': 'Utility',
     'version': '10.0.1.0',
-    'depends': [
-        'account_accountant',
-        'sale'],
+    'depends': ['sale'],
     'data': [
-        'views/account.xml',
         'views/sale_order.xml',
+        'wizard/wizard_payment_plan.xml',
         'security/ir.model.access.csv',
     ],
     'installable': True,
