@@ -22,9 +22,4 @@ class SaleOrderPaymentPlan(models.Model):
     residual = fields.Monetary(string='Residual Amount', default=lambda self: self.amount)
     reconciled = fields.Boolean(string='Payment Reconciled')
 
-    @api.onchange('amount')
-    def _onchange_amount(self):
-        for record in self:
-            if record.amount and record.residual == 0.0:
-                record.residual = record.amount
 
