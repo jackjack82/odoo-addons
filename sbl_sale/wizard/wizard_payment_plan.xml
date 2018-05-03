@@ -47,15 +47,16 @@
                         <field name="payment_plan_selection"/>
                     </group>
                     <group colspan="2">
-                        <field name="date_from"/>
+                        <field name="date_from"
+                               attrs="{'required':[('payment_plan_selection','!=','normal')]}"/>
                         <field name="date_to"/>
                     </group>
                     <group col="2" colspan="4">
-                        <field name="intervals" attrs="{'invisible':[('payment_plan_selection','not in','payment_order_analysis_intervals')]}"/>
+                        <field name="intervals" attrs="{'invisible':[('payment_plan_selection','!=','intervals')]}"/>
                     </group>
                     <footer>
                         <button type="object" name="analysis_upload" string="Order Analysis"
-                                class="btn btn-primary" attrs="{'invisible':[('payment_plan_selection','not in','payment_order_analysis')]}"/>
+                                class="btn btn-primary"/>
                         <button type="object" name="upload_intervals" string="ORDER ANALYSIS INTERVALS" class="btn btn-primary" attrs="{'invisible':[('payment_plan_selection','not in','payment_order_analysis_intervals')]}"/>
                     </footer>
                 </form>
