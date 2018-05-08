@@ -49,7 +49,7 @@ class PaymentPlanAnalysis(models.TransientModel):
                     date_from = datetime.strptime(self.date_from, tools.DEFAULT_SERVER_DATE_FORMAT)
                     date_due = datetime.strptime(payment_plan.date, tools.DEFAULT_SERVER_DATE_FORMAT)
                     days_diff = (date_due - date_from).days
-                    days = str(int(days_diff / self.intervals) * self.intervals)
+                    days = str(int(days_diff / self.intervals) * self.intervals).rjust(4, "0")
                     # days_round = str(int(math.ceil(days)) * 15) + _(" days")
                     context = 'days'
 
