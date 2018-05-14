@@ -6,13 +6,34 @@ from odoo.exceptions import UserError
 
 class AccountMoveEditLine(models.TransientModel):
     _name = 'account.move.edit.line'
+    _order = 'sequence'
 
-    move_id = fields.Many2one(comodel_name="", string="Wizard")
-    line_id = fields.Integer(string="Invoice Line")
+    sequence = fields.Integer("")
+    move_id = fields.Many2one(
+        comodel_name="account.move", string="Move")
+    line_id = fields.Many2one(
+        comodel_name="account.move.line", string="Invoice Line")
     name = fields.Char(string="Description")
-    wizard_id = fields.Many2one(comodel_name="sale.advance.payment.inv", string="Wizard")
-    debit = fields.Float(string="Debit")
-    credit = fields.Float(string="Credit")
+    wizard_id = fields.Many2one(
+        comodel_name="sale.advance.payment.inv", string="Wizard")
+    residual = fields.Float(string="Residual")
+    balance = fields.Float(string="Balance")
+    date_maturity = fields.Date(string="Date maturity")
+
+    @api.multi
+    def split_line(self):
+        self.ensure_one()
+
+        new_line = (0, 0, {
+            'name': self.name,
+            'move_id': self.move_id.id,
+            'line_id': self.id,
+            'date_maturity': self.date_maturity,
+            'balance': self.residual,
+            'residual': self.residual,
+        })
+        self.residual = 0
+        self.wizard_id.update({'wizard_line_ids': new_line})
 
 
 class AccountMoveEdit(models.TransientModel):
@@ -22,22 +43,35 @@ class AccountMoveEdit(models.TransientModel):
         """When wizard opens we show all unreconciled lines with
         amount residual greater than 0."""
 
-        moves = self.env['account.move'].browse(self._context.get('active_ids', []))
+        if self._context.get('active_model') == 'account.move.line':
+            mls = self.env['account.move.line'].browse(
+                self._context.get('active_ids', []))
+            moves = mls.mapped('move_id')
+
+        if self._context.get('active_model') == 'account.move':
+            moves = self.env['account.move'].browse(
+                self._context.get('active_ids', []))
         line_ids = []
         for move in moves:
+            acc_type = [self.env.ref(
+                            'account.data_account_type_receivable').id,
+                        self.env.ref(
+                            'account.data_account_type_payable').id
+                        ]
             for line in move.line_ids:
-                if line.amount_residual == 0:
+                if (line.amount_residual == 0 or
+                        line.account_id.user_type_id.id not in acc_type):
                     continue
-                residual = (line.debit - line.credit) - line.amount_residual
                 line_ids.append((0, 0, {
                     'name': line.name,
                     'line_id': line.id,
-                    'debit': line.debit,
-                    'credit': line.credit,
-                    'amount_residual': residual,
+                    'move_id': line.move_id.id,
+                    'date_maturity': line.date_maturity,
+                    'balance': line.balance,
+                    'residual': line.amount_residual,
                 }))
 
-        self.update({'wizard_line_ids': line_ids})
+        return line_ids
 
     wizard_line_ids = fields.One2many(
         comodel_name="account.move.edit.line",
@@ -45,13 +79,14 @@ class AccountMoveEdit(models.TransientModel):
         default=_compute_line_ids,
         string="Lines")
 
-    """
     @api.multi
     def edit_move(self):
+        for line in self.wizard_line_ids:
+            if line.residual > 0:
+                line.line_id.credit -= line.residual
 
-        if self.advance_payment_method in ['select_qty', 'select_amount']:
-
-            # we now check that there are no wizard lines with 0 quantity/amount
+    """
+            # there should be no line with 0 residual
             if self.advance_payment_method == 'select_qty' and not all(
                     self.wizard_line_ids.mapped('qty_to_invoice')):
                 raise UserError(_("No lines shall have quantity equal to 0."))

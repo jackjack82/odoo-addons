@@ -13,7 +13,7 @@
         ],
     'data': [
         'data/account.xml',
-        # 'views/sequence_integrity_check.xml',
+        'wizard/wizard_edit_lines.xml',
     ],
     'installable': True,
 }

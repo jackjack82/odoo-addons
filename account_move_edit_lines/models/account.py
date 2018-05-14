@@ -6,6 +6,7 @@ from odoo import models, fields, api, _
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
+
     @api.multi
     def edit_move_line(self):
         move = self[0]
