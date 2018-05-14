@@ -10,16 +10,21 @@
             <form>
                 <sheet>
                     <div>
-                        Here below a list of deadlines that can be edited.
+                        Here below a list of deadlines that can be edited.<br/>
                         Please remember to keep the total of the invoice equal.
                     </div>
                     <group>
                         <field name="wizard_line_ids">
-                            <tree>
-                                <field name="move_id"/>
+                            <tree editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="line_id" invisible="1"/>
+                                <field name="move_id" readonly="1"/>
+                                <field name="date_maturity"/>
                                 <field name="name"/>
-                                <field name="debit"/>
-                                <field name="credit"/>
+                                <field name="balance" readonly="1"/>
+                                <field name="residual"/>
+                                <button name="split_line" icon="fa-deviantart"
+                                        type="object"/>
                             </tree>
                         </field>
                     </group>
@@ -27,8 +32,6 @@
             </form>
         </field>
     </record>
-
-
 
 </data>
 </odoo>

@@ -3,14 +3,15 @@
    :alt: License: AGPL-3
 
 ========================
-Account Edit Deadlines
+Account Move Edit Lines
 ========================
 
 This module allows for editing account moves which are posted or partially reconciled.
-In particular, there is a specific need to update payment terms e.g. from invoices which
-are already partially paid.
+In particular, this is useful when there is a specific need to update payment terms
+e.g. from invoices which are already partially paid.
 
-On different places it will be passible to call a wizard and edit the move lines.
+The wizard can be called from account moves or move lines. A button "split line" is also
+available on move lines, the line is directly split between paid and unpaid amount.
 
 
 Bug Tracker
