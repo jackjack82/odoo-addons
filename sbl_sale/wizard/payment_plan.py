@@ -30,7 +30,6 @@ class PaymentPlanAnalysis(models.TransientModel):
             ('state', 'in', ['sale']),
             ('payment_plan_residual', '>', 0),
         ])
-        # [('confirmation_date', '>=', self.date_from), ('confirmation_date', '<=', self.date_to)])
         payment_details = []
         for order in orders:
             for payment_plan in order.payment_plan_ids.filtered(lambda r: r.residual > 0.00):
@@ -42,16 +41,12 @@ class PaymentPlanAnalysis(models.TransientModel):
                 else:
                     date_due = payment_plan.date
                 context = 'date_due:month'
-                days_round = ''
 
                 # if report is needed based on date intervals
-                if self.payment_plan_selection == 'intervals':
-                    date_from = datetime.strptime(self.date_from, tools.DEFAULT_SERVER_DATE_FORMAT)
-                    date_due = datetime.strptime(payment_plan.date, tools.DEFAULT_SERVER_DATE_FORMAT)
-                    days_diff = (date_due - date_from).days
-                    days = str(int(days_diff / self.intervals) * self.intervals).rjust(4, "0")
-                    # days_round = str(int(math.ceil(days)) * 15) + _(" days")
-                    context = 'days'
+                date_from = datetime.strptime(self.date_from, tools.DEFAULT_SERVER_DATE_FORMAT)
+                date_due2 = datetime.strptime(payment_plan.date, tools.DEFAULT_SERVER_DATE_FORMAT)
+                days_diff = (date_due2 - date_from).days
+                days = str(int(days_diff / self.intervals) * self.intervals).rjust(4, "0")
 
                 payment_details.append((0, 0, {
                     'order_id': order.id,
