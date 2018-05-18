@@ -8,27 +8,31 @@
         <field name="model">account.move.edit</field>
         <field name="arch" type="xml">
             <form>
-                <sheet>
-                    <div>
-                        Here below a list of deadlines that can be edited.<br/>
-                        Please remember to keep the total of the invoice equal.
-                    </div>
-                    <group>
-                        <field name="wizard_line_ids">
-                            <tree editable="bottom">
-                                <field name="sequence" widget="handle"/>
-                                <field name="line_id" invisible="1"/>
-                                <field name="move_id" readonly="1"/>
-                                <field name="date_maturity"/>
-                                <field name="name"/>
-                                <field name="balance" readonly="1"/>
-                                <field name="residual"/>
-                                <button name="split_line" icon="fa-deviantart"
-                                        type="object"/>
-                            </tree>
-                        </field>
-                    </group>
-                </sheet>
+                <div>
+                    Here below a list of deadlines that can be edited.<br/>
+                    Please remember to keep the total of the invoice equal.
+                </div>
+                <group>
+                    <field name="move_id" readonly="1"/>
+                    <field name="orig_residual" readonly="1"/>
+                    <field name="move_residual" readonly="1"/>
+                    <field name="wizard_line_ids">
+                        <tree editable="bottom">
+                            <field name="line_id" invisible="1"/>
+                            <field name="date_maturity" required="1"/>
+                            <field name="account_id" required="1"/>
+                            <field name="partner_id" />
+                            <field name="name" required="1"/>
+                            <field name="balance" readonly="1"/>
+                            <field name="residual"/>
+                        </tree>
+                    </field>
+                </group>
+                <footer>
+                    <button string="Edit lines" name="edit_move"
+                            type="object" default_focus="1" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel" class="oe_link"/>
+                </footer>
             </form>
         </field>
     </record>

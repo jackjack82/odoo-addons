@@ -12,7 +12,7 @@
         'account',
         ],
     'data': [
-        'data/account.xml',
+        'views/account.xml',
         'wizard/wizard_edit_lines.xml',
     ],
     'installable': True,
