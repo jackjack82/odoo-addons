@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Purchase accounting menu and views-->
+
+    <act_window id="action_order_accounting_config"
+      name="Order Accounting"
+      res_model="order.accounting"
+      view_mode="tree,form"/>
+
+    <menuitem id='menu_order_accounting_config'
+      string='Order accounting config'
+      parent="purchase.menu_purchase_config"
+      action="action_order_accounting_config"
+      sequence='10'/>
+
+    <record model="ir.ui.view" id="order_accounting_form">
+        <field name="name">order.accounting.form</field>
+        <field name="model">order.accounting</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" required="1"/>
+                        <field name="cost_prov_acc_id" required="1"/>
+                        <field name="debit_prov_acc_id" required="1"/>
+                        <field name="journal_id" required="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="order_accounting_tree">
+        <field name="name">order.accounting.tree</field>
+        <field name="model">order.accounting</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="cost_prov_acc_id"/>
+                <field name="debit_prov_acc_id"/>
+            </tree>
+        </field>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record model="ir.ui.view" id="purchase_order_form_add_accounting">
+        <field name="name">purchase.order.add.accounting</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <field name="date_order" position="after">
+                <field name="order_accounting_id"/>
+                <field name="move_id"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
