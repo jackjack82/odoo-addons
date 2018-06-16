@@ -27,10 +27,8 @@
                             <field name="prefix"/>
                             <field name="increment"/>
                             <field name="last_check"/>
-                            <div>
-                                <field name="filter_domain" widget="char_domain"
-                                       options="{'model_field': 'model_name'}"/>
-                            </div>
+                            <field name="filter_domain" widget="char_domain"
+                                   options="{'model_field': 'model_name'}"/>
                         </group>
                     </group>
                     <group>
@@ -41,7 +39,7 @@
         </field>
     </record>
 
-          <!-- Financial Planning menu-->
+          <!-- Integrity check menu -->
     <act_window id="action_sequence_integrity_check"
       name="Sequence Integrity Check"
       res_model="sequence.integrity.check"

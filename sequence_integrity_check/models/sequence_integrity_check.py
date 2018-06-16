@@ -39,8 +39,10 @@ class SequenceIntegrityCheck(models.Model):
     )
     last_check = fields.Datetime(string="Last check", readonly=True)
     status = fields.Selection([
+        ('draft', 'Draft'),
         ('success', 'Success'),
-        ('failed', 'Failed')])
+        ('failed', 'Failed')],
+        default='draft')
     output = fields.Text("Output")
 
     @api.multi
@@ -60,7 +62,7 @@ class SequenceIntegrityCheck(models.Model):
                 end = len(self.suffix) if self.suffix else None
                 num = name[start:end]
 
-                date = getattr(obj, self.date_field_id.name, None)
+                date = getattr(obj, self.date_field_id.name, False)
                 obj_list.append((date, num, obj.id))
             obj_list.sort(key=lambda o: o[1])
 
@@ -82,8 +84,15 @@ class SequenceIntegrityCheck(models.Model):
                         previous[1], following[1])
                 previous = following
 
-            self.output = output
             self.last_check = datetime.now()
+
+            # returning output and check state
+            self.output = output
+            if output:
+                self.status = 'failed'
+            else:
+                self.status = 'success'
+
 
     @api.onchange('sequence_id')
     def _onchange_sequence(self):
