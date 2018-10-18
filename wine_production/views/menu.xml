@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+          <!-- Creating the general menu "WINE"  menu -->
+    <menuitem name="Wine"
+        string='Wine'
+        id="menu_wine_production_root"
+        sequence="80"
+        />
+
+        <!-- Creating the "Production" group menu -->
+
+        <menuitem name="Wine Production"
+          id="menu_wine_production_management"
+          parent="menu_wine_production_root"
+          sequence='20'
+        />
+
+        <!-- Creating the "Analysis" group menu -->
+
+        <menuitem name="Analysis management"
+          id="menu_wine_analysis_management"
+          parent="menu_wine_production_root"
+          sequence='40'
+        />
+
+        <!-- Creating the "Wharehouse management" group menu -->
+
+        <menuitem name="Warehouse management"
+          id="menu_warehouse_management"
+          parent="menu_wine_production_root"
+          sequence='50'/>
+
+        <!--menuitem id='menu_wine_inventory'
+          string='Inventory'
+          parent="menu_warehouse_management"
+          action="stock_account.action_wizard_stock_valuation_history"
+        /-->
+
+        <menuitem id='stock.menu_action_move_form2'
+          string='Stock Moves'
+          parent="menu_warehouse_management"
+          action="stock.stock_move_action"
+        />
+
+        <!-- Creating the "Asset manamement" group menu -->
+
+        <menuitem name="Asset management"
+          id="menu_wine_assets_management"
+          parent="menu_wine_production_root"
+          sequence='60'
+        />
+
+        <!-- Creating the "Others" group menu -->
+
+        <menuitem name="Others"
+          id="menu_wine_others"
+          parent="menu_wine_production_root"
+          sequence='70'
+        />
+
+        <!-- Adding the PRODUCTS menu -->
+
+        <menuitem id='menu_wine_products'
+        string='Products'
+        parent="menu_wine_production_management"
+        action="product.product_template_action"/>
+
+        <!-- Creating the Repairments menu -->
+
+        <act_window id="action_repairments"
+        name="Repairments"
+        res_model="wine.repairment"
+        view_mode="tree,form"/>
+
+        <menuitem id='menu_repairments'
+        string='Repairments'
+        parent="menu_wine_assets_management"
+        action="action_repairments"/>
+
+        <!-- Creating the Refill menu -->
+
+        <act_window id="action_refills"
+        name="Refills"
+        res_model="wine.refill"
+        view_mode="tree,form"/>
+
+        <menuitem id='menu_repairments'
+        string='Refills'
+        parent="menu_wine_analysis_management"
+        action="action_refills"/>
+
+        <!-- Creating the vineyard Analysis menu -->
+
+        <act_window id="action_terr_analys_meth"
+        name="Vineyard analysis methods"
+        res_model="wine.terr_method"
+        view_mode="tree,form"/>
+
+        <menuitem id='menu_terr_analysis_methods'
+        string='Vineyard analysis methods'
+        parent="menu_wine_others"
+        action="action_terr_analys_meth"/>
+
+        <!-- Creating the Wine Analysis menu -->
+
+        <act_window id="action_wine_analys_meth"
+        name="Wine analysis methods"
+        res_model="wine.wine_method"
+        view_mode="tree,form"/>
+
+        <menuitem id='menu_wine_analysis_methods'
+        string='Wine analysis methods'
+        parent="menu_wine_others"
+        action="action_wine_analys_meth"/>
+
+        <!-- Creating the vineyards menu -->
+
+        <act_window id="action_wine_vineyards"
+        name="Vineyards"
+        res_model="wine.vineyard"
+        view_mode="tree,form"/>
+
+        <menuitem id='menu_wine_vineyards'
+        string='Vineyards'
+        parent="menu_wine_others"
+        action="action_wine_vineyards"/>
+
+
+  </data>
+</odoo>

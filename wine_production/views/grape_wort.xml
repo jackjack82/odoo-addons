@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+
+        <!-- Creating the grape_lots menu -->
+
+    <act_window id="action_grape_lots"
+      name="Grapes Lot"
+      res_model="wine.grape_lot"
+      view_mode="tree,form,graph"/>
+
+    <menuitem id='menu_grape_lots'
+        string='Grapes Lot'
+        parent="menu_wine_production_management"
+        action="action_grape_lots"/>
+
+
+    <record id="view_ grape_lots_list" model="ir.ui.view">
+         <field name="name"> grape_lots_list_view</field>
+         <field name="model">wine.grape_lot</field>
+         <field name="arch" type="xml">
+             <tree string=" grape_lots">
+               <field name="name"/>
+               <field name="stage_id"/>
+               <field name="tank"/>
+               <field name="quantity"/>
+               <field name="collection_date"/>
+               <field name="svination_date"/>
+               <field name="transformation_date"/>
+             </tree>
+         </field>
+     </record>
+
+     <record id="view_ grape_lots_form" model="ir.ui.view">
+          <field name="name"> grape_lots_form_view</field>
+          <field name="model">wine.grape_lot</field>
+          <field name="arch" type="xml">
+            <form string="grape_lot analysis">
+              <header>
+                <!-- Buttons go here - see. p. 224 ODE-->
+                <field name="stage_id" widget="statusbar" clickable="True" options="{'fold_field':'fold'}" />
+               </header>
+              <sheet>
+                <group name="group_top" string="Grape Lot">
+                  <group name="group_right" >
+                    <field name="name"/>
+                    <field name="stage_id"/>
+                    <field name="tank"/>
+                  </group>
+                  <group name="group_left">
+                    <field name="quantity"/>
+                    <field name="collection_date"/>
+                    <field name="svination_date"/>
+                    <field name="transformation_date"/>
+                  </group>
+               </group>
+
+               <group>
+                 <field name="comments"/>
+               </group>
+
+              <notebook>
+               <page string="Analysis" name="wine_analysis" >
+                <field name="wine_analysis_ids"/></page>
+
+              <page string="Origins" name="origins" >
+                <field name="grape_origin_ids"/></page>
+
+              <page string="Additions" name="additions" >
+                <field name="wine_additions_ids"/></page>
+
+             </notebook>
+
+             <div class="oe_chatter">
+              <field name="message_follower_ids" widget="mail_followers"/>
+              <field name="message_ids" widget="mail_thread" />
+            </div>
+
+              </sheet>
+
+           </form>
+          </field>
+      </record>
+
+
+      <record id="view_ grape_lot_origins_list" model="ir.ui.view">
+           <field name="name"> grape_lots_origins_list_view</field>
+           <field name="model">wine.grape_origin</field>
+           <field name="arch" type="xml">
+               <tree string=" grape_origin" editable='True'>
+                 <field name="product"/>
+                 <field name="quantity"/>
+               </tree>
+           </field>
+       </record>
+
+
+       <!-- defininf the grape LOT search view -->
+       <record id="view_grape_lot_search_view" model="ir.ui.view">
+          <field name="name">view_grape_lot_search_view</field>
+          <field name="model">wine.grape_lot</field>
+          <field name="arch" type="xml">
+            <search>
+              <group expand="0" string="Group By">
+                <filter name="group_tank" string="Tank" context="{'group_by': 'tank'}"/>
+                <filter name="group_stage_id" string="Stage" context="{'group_by': 'stage_id'}"/>
+                <filter name="filter_closed" string="Open" domain="[('stage_id', '!=', 'closed')]"/>
+              </group>
+              <group expand="0" string="Filter">
+                <filter name="filter_closed" string="Open" domain="[('stage_id', '!=', 'closed')]"/>
+              </group>
+            </search>
+          </field>
+       </record>
+
+
+       <!-- creating a PIVOT table with grape data!-->
+
+       <record id="view_grape_lots_graph" model="ir.ui.view">
+            <field name="name"> grape_lots_graph_view</field>
+            <field name="model">wine.grape_lot</field>
+            <field name="arch" type="xml">
+              <graph string="Grape Analysis" type="pivot" stacked="True">
+                <field name="name" type="row"/>
+                <field name="stage_id" type="row"/>
+                <field name="tank" type="col"/>
+                <field name="quantity" type="measure"/>
+              </graph>
+            </field>
+        </record>
+
+       <!-- Creating the wort lots menu -->
+
+       <act_window id="action_wort_lots"
+       name="Worts Lot"
+       res_model="wine.wort_lot"
+       view_mode="tree,form,graph"
+       />
+
+       <menuitem id='menu_wort_lots'
+       string='Grapes Lot'
+       parent="menu_wine_production_management"
+       action="action_wort_lots"
+        />
+
+
+       <record id="view_ wort_lots_list" model="ir.ui.view">
+        <field name="name"> wort_lots_list_view</field>
+        <field name="model">wine.wort_lot</field>
+        <field name="arch" type="xml">
+            <tree string=" wort_lots">
+              <field name="name"/>
+              <field name="stage_id"/>
+              <field name="tank"/>
+              <field name="quantity"/>
+              <field name="alc_ferm_begin"/>
+              <field name="alc_ferm_end"/>
+              <field name="malol_ferm_begin"/>
+              <field name="malol_ferm_end"/>
+              <field name="svin_date"/>
+              <field name="affin_begin"/>
+              <field name="affin_end"/>
+              <field name="affin_type"/>
+            </tree>
+        </field>
+    </record>
+
+       <record id="view_ wort_lots_form" model="ir.ui.view">
+         <field name="name"> wort_lots_form_view</field>
+         <field name="model">wine.wort_lot</field>
+         <field name="arch" type="xml">
+           <form string="wort_lot analysis">
+             <header>
+               <button name="action_confirm" type="object"
+                 string="Chiudi"/>
+               <field name="stage_id" widget="statusbar" clickable="True" options="{'fold_field':'fold'}" />
+              </header>
+             <sheet>
+               <group name="group_top" string="Wort Lot">
+                 <group name="group_right" >
+                   <field name="name"/>
+                   <field name="stage_id"/>
+                   <field name="tank"/>
+                   <field name="quantity"/>
+                 </group>
+                 <group name="group_left" >
+                   <field name="bottling_date"/>
+                 </group>
+              </group>
+                 <group name="group_bottom" col='8'>
+                   <group colspan='2' string="Ferm. Alcolica">
+                   <field name="alc_ferm_begin"/>
+                   <field name="alc_ferm_end"/>
+                   </group>
+                  <group colspan='2' string="Ferm. Malolattica">
+                   <field name="malol_ferm_begin"/>
+                   <field name="malol_ferm_end"/>
+                   </group>
+                  <group colspan='2' string="Svinatura">
+                   <field name="svin_date"/>
+                   </group>
+                  <group colspan='2' string="Affinamento">
+                   <field name="affin_begin"/>
+                   <field name="affin_end"/>
+                   <field name="affin_type"/>
+                   </group>
+              </group>
+
+              <group string="Commenti">
+                <field name="comments"/>
+              </group>
+
+             <notebook>
+              <page string="Analysis" name="wine_analysis">
+               <field name="wine_analysis_ids"/></page>
+
+             <page string="Origins" name="origins" >
+               <field name="wort_lot_origin_ids"/></page>
+
+             <page string="Additions" name="additions" >
+               <field name="wine_additions_ids"/></page>
+
+             <page string="Ricolmaggi" name="refills" >
+               <field name="refill_ids"/></page>
+            </notebook>
+
+             <div class="oe_chatter">
+              <field name="message_follower_ids" widget="mail_followers"/>
+              <field name="message_ids" widget="mail_thread" />
+            </div>
+
+           </sheet>
+
+          </form>
+         </field>
+       </record>
+
+       <!-- Creating the "wort_origin" list view -->
+       <record id="view_wort_origin_list" model="ir.ui.view">
+        <field name="name">wort_origin_list_view</field>
+        <field name="model">wine.wort_origin</field>
+        <field name="arch" type="xml">
+            <tree editable='True'>
+              <field name="product"/>
+              <field name="quantity"/>
+            </tree>
+        </field>
+       </record>
+
+
+       <!-- defininf the WORT LOT search view -->
+       <record id="view_wort_lot_search_view" model="ir.ui.view">
+          <field name="name">view_wort_lot_search_view</field>
+          <field name="model">wine.wort_lot</field>
+          <field name="arch" type="xml">
+            <search>
+              <group expand="0" string="Group By">
+                <filter name="group_tank" string="Tank" context="{'group_by': 'tank'}"/>
+                <filter name="group_stage_id" string="Stage" context="{'group_by': 'stage_id'}"/>
+              </group>
+              <group expand="0" string="Filter">
+                <filter name="filter_closed" string="Open" domain="[('stage_id', '!=', 'closed')]"/>
+              </group>
+            </search>
+          </field>
+       </record>
+
+       <!-- adding the graph view to the Wort lot view -->
+
+       <record id="view_wort_lots_graph" model="ir.ui.view">
+            <field name="name"> wort_lots_graph_view</field>
+            <field name="model">wine.wort_lot</field>
+            <field name="arch" type="xml">
+              <graph string="Wort Analysis" type="pivot" stacked="True">
+                <field name="name" type="row"/>
+                <field name="stage_id" type="row"/>
+                <field name="tank" type="col"/>
+                <field name="quantity" type="measure"/>
+              </graph>
+            </field>
+        </record>
+
+        <!-- refill list view-->
+       <record id="view_ refill_list" model="ir.ui.view">
+            <field name="name"> refill_list_view</field>
+            <field name="model">wine.refill</field>
+            <field name="arch" type="xml">
+                <tree string=" Ricolmaggi">
+                  <field name="name"/>
+                  <field name="date"/>
+                  <field name="description"/>
+                  <field name="wort_lot_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- refill form view-->
+       <record id="view_ refill_form" model="ir.ui.view">
+            <field name="name"> refill_form_view</field>
+            <field name="model">wine.refill</field>
+            <field name="arch" type="xml">
+                <form string=" Ricolmaggi">
+                  <sheet>
+                    <group>
+
+                      <field name="name"/>
+                      <field name="date"/>
+                      <field name="wort_lot_id"/>
+                      <field name="description"/>
+                    </group>
+                  </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+        <!-- Editing the Product page -->
+        <record model="ir.ui.view" id="changes_to_product_form_view">
+          <field name="name">view_form_edit_product</field>
+          <field name="model">product.template</field>
+          <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+              <field name='list_price' position="after">
+                    <field name="is_bottle"/>
+                    <field name="is_chemical"/>
+              </field>
+
+        <!-- Adding deadline tab to Equipment-->
+              <notebook>
+                <page string="Bottle data" name="bottle"
+                 attrs="{'invisible':[('is_bottle', '==', False)]}">
+                  <group name="group_left" string="Dati bottiglia">
+                     <field name="wort_lot_id" domain="[('bottling_date', '!=', False)]"/>
+                     <field name="bottling_date"/>
+
+                  </group>
+                  <group name="group_right">
+                  </group>
+                </page>
+              </notebook>
+
+        <!-- Adding deadline tab to Equipment-->
+              <notebook>
+                <page string="Prod. Chimici" name="chemicals" attrs="{'invisible':[('is_chemical', '==', False)]}">
+                  <group name="group_left" string="Prod. Chimico" colspan="1">
+                     <field name="type_id"/>
+
+                  </group>
+                </page>
+              </notebook>
+
+
+            </field>
+        </record>
+
+</data>
+</odoo>
