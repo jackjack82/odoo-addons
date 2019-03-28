@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+<data>
+
+    <!-- ACCOUNT TAX VIEWS -->
+
+    <record model="ir.ui.view" id="view_tax_form_add_excise">
+        <field name="name">product.product.normal.form.view.add.nincotine</field>
+        <field name="inherit_id" ref="account.view_tax_form"/>
+        <field name="model">account.tax</field>
+        <field name="arch" type="xml">
+            <field name="amount_type" position="after">
+                <field name="excise_type"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tax_tree_add_excise">
+        <field name="name">account.tax.tree.add.excise</field>
+        <field name="inherit_id" ref="account.view_tax_tree"/>
+        <field name="model">account.tax</field>
+        <field name="arch" type="xml">
+            <field name="description" position="after">
+                <field name="excise_type"/>
+            </field>
+        </field>
+    </record>
+
+</data>
+</odoo>
