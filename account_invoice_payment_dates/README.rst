@@ -2,9 +2,9 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-========================
-Invoice Client Account
-========================
+==========================
+Invoice Payment Deadlines
+==========================
 
 This module adds a the payment deadlines on the invoice report.
 This information are taken from the invoice journal entry.
@@ -23,9 +23,9 @@ Credits
 Contributors
 -------------
 
-* Giacomo Grasso <giacomo.grasso@agilebg.com>
+* Giacomo Grasso <giacomo.grasso.82@gmail.com>
 
 Maintainer
 -----------
 
-* Giacomo Grasso <giacomo.grasso@agilebg.com>
+* Giacomo Grasso <giacomo.grasso.82@gmail.com>
