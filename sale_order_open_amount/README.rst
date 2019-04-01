@@ -2,9 +2,9 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-========================
-Sale Order Open Amount
-========================
+===========================
+Sale Order Invoiced Amount
+===========================
 
 This module computes for sale order the amount that has been invoiced ad the amount still open.
 All invoices are included, both draft and validated.
