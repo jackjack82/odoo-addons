@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2017 Giacomo Grasso - Agile Business Group
+# © 2019 Giacomo Grasso
 # License GPL-3.0 or later (http://www.gnu.org/licenses/gpl.html).
 
 from odoo import models, fields, api
@@ -35,4 +35,5 @@ class SaleOrder(models.Model):
         res = super(SaleOrder, self)._prepare_invoice()
         res['client_bank_account_id'] = self.client_bank_account_id.id
         res['partner_bank_id'] = self.partner_bank_id.id
+
         return res

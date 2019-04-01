@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<openerp>
+<odoo>
 <data>
 
     <record model="ir.ui.view" id="view_order_form_form_add_bank_accounts">
@@ -16,4 +16,4 @@
     </record>
 
 </data>
-</openerp>
+</odoo>

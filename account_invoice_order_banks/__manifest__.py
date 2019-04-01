@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2017 Giacomo Grasso - Agile Business Group
+# © 2019 Giacomo Grasso
 # License GPL-3.0 or later (http://www.gnu.org/licenses/gpl.html).
 
 {
@@ -7,8 +7,8 @@
     'version': '10.0.1.0.0',
     'category': 'Accounting',
     'summary': 'Adding client and company bank account on invoices and sale order',
-    'author': 'Agile Business Group',
-    'website': 'http://www.agilebg.com',
+    'author': 'OdooMinds.com',
+    'website': 'www.odoominds.com',
     'license': 'AGPL-3',
     'depends': [
         'account',
