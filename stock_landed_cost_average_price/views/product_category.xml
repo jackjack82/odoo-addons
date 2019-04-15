@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+<data>
+
+    <record model="ir.ui.view" id="view_category_property_form_add_landed">
+        <field name="name">view.category.property.form.add.landed</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="stock_account.view_category_property_form"/>
+        <field name="arch" type="xml">
+            <field name="property_valuation" position="after">
+                <field name="apply_landed_cost"/>
+            </field>
+        </field>
+    </record>
+
+</data>
+</odoo>
