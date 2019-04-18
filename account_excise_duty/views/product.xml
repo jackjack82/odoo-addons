@@ -3,17 +3,39 @@
 <odoo>
 <data>
 
+        <!-- ADDING BUTTON ON INVOICES-->
+
+
+    <record model="ir.ui.view" id="account.invoice_form_add_nincotine_button">
+        <field name="name">account.invoice.form.add.nicotine.button</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="model">account.invoice</field>
+        <field name="arch" type="xml">
+            <button name="action_invoice_cancel" position="after">
+                <button name="compute_nicotine_taxes" string="Compute Nicotine Taxes" states="draft" type="object"/>
+            </button>
+        </field>
+    </record>
+
     <!-- PRODUCT TEMPLATE VIEWS -->
 
-    <record model="ir.ui.view" id="product_template_only_form_view_add_nincotine">
-        <field name="name">product.template.only.form.view.add.nincotine</field>
-        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+    <record model="ir.ui.view" id="product.product_template_form_view_add_nincotine">
+        <field name="name">product.template.common.form.add.nincotine</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="model">product.template</field>
         <field name="arch" type="xml">
-            <field name="barcode" position="after">
-                <field name="bottle_ml" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"/>
-                <field name="has_nicotine" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"/>
-            </field>
+            <xpath expr="//page[@name='sales']" position="after">
+                    <page string="Nicotine" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}">
+                        <group string="Informazioni Prodotto">
+                            <field name="bottle_ml"/>
+                            <field name="has_nicotine"/>
+                        </group>
+                        <group string="Imposte prodotto">
+                            <field name="excise_nic_tax"/>
+                            <field name="excise_no_nic_tax"/>
+                        </group>
+                    </page>
+            </xpath>
         </field>
     </record>
 
@@ -35,10 +57,20 @@
         <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
         <field name="model">product.product</field>
         <field name="arch" type="xml">
-            <field name="default_code" position="after">
-                <field name="bottle_ml"/>
-                <field name="has_nicotine"/>
-            </field>
+            <xpath expr="//form/sheet" position="inside">
+                <notebook>
+                    <page string="Nicotine" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}">
+                        <group string="Informazioni Prodotto">
+                            <field name="bottle_ml"/>
+                            <field name="has_nicotine"/>
+                        </group>
+                        <group string="Imposte prodotto">
+                            <field name="excise_nic_tax"/>
+                            <field name="excise_no_nic_tax"/>
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
         </field>
     </record>
 

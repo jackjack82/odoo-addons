@@ -11,6 +11,9 @@ class ProductTemplate(models.Model):
     bottle_ml = fields.Float(string="Ml", related='product_variant_ids.bottle_ml')
     has_nicotine = fields.Boolean(string="Nicotine")
 
+    excise_nic_tax = fields.Boolean(string="Excise product with nicotine")
+    excise_no_nic_tax = fields.Boolean(string="Excise product without nicotine")
+
     @api.model
     def create(self, vals):
         ''' Store the initial standard price in order to be able to
