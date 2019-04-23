@@ -26,6 +26,7 @@ class AccountInvoice(models.Model):
             inv_lines = []
             ml_with_nicotine = 0.0
             ml_without_nicotine = 0.0
+            sequence = max(line.sequence for line in inv.invoice_line_ids)
 
             for line in inv.invoice_line_ids:
                 if line.product_id.has_nicotine:
@@ -42,6 +43,7 @@ class AccountInvoice(models.Model):
                     'price_unit': tax_prod_with.lst_price,
                     'uom_id': tax_prod_without.uom_id,
                     'invoice_line_tax_ids': [(4, tax.id) for tax in tax_prod_with.taxes_id],
+                    'sequence': sequence + 1,
                 }))
             if ml_without_nicotine:
                 inv_lines.append((0, 0, {
@@ -52,9 +54,12 @@ class AccountInvoice(models.Model):
                     'account_id': tax_prod_without.property_account_income_id,
                     'price_unit': tax_prod_without.lst_price,
                     'invoice_line_tax_ids': [(4, tax.id) for tax in tax_prod_without.taxes_id],
+                    'sequence': sequence + 2,
+
                 }))
 
             inv.update({'invoice_line_ids': inv_lines})
+            inv.compute_taxes()
 
 
 class ProductProduct(models.Model):
