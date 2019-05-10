@@ -4,10 +4,10 @@
 
 =======================================
 Client Bank Account on SO and Invoice
-=======================================amount_net_pay
+=======================================
 
 This module adds a Company bank account to the partner.
-This account is automatically set on the SaleOorder and Invoice form while selecting
+This account is automatically set on the Sale Order and Invoice form while selecting
 the customer and is added to the sale order/invoice reports.
 
 This modules also adds a client bank account field to the invoice.

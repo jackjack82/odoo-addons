@@ -5,7 +5,10 @@
     'version': '10.0.1.0.0',
     'category': 'Sale',
     'summary': 'Showing on sale order invoiced and open amounts',
+    'description': 'Showing on sale order invoiced and open amounts',
     'author': "Giacomo Grasso",
+    'maintainer': 'Giacomo Grasso - giacomo.grasso.82@gmail.com',
+    'images': ['static/description/main_screenshot1.png'],
     'license': 'AGPL-3',
     'depends': [
         'sale',
@@ -15,4 +18,5 @@
         'views/sale_order.xml',
     ],
     'installable': True,
+    'auto_install': False,
 }
