@@ -22,5 +22,5 @@
         'report/account_invoice.xml',
         'report/sale_order.xml',
     ],
-    'installable': True,
+    'installable': False,
 }
