@@ -15,6 +15,7 @@
     'data': [
         'views/res_partner.xml',
         'views/fidelity_transaction.xml',
+        'wizard/views.xml',
 
         'security/ir.model.access.csv',
     ],

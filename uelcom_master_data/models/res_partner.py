@@ -19,6 +19,7 @@ class ResPartner(models.Model):
     total_amount = fields.Integer(
         string='Total amount',
         compute='_compute_total_amount')
+    fidelity_selection = fields.Boolean(string='Fidelity Selection')
 
     @api.multi
     def _compute_total_points(self):
