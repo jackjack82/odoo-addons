@@ -10,6 +10,7 @@ class ResPartner(models.Model):
     sex = fields.Selection([
         ('male', 'Male'),
         ('female', 'Female'),
+        ('other', 'Other'),
     ], string='Sex')
 
     age = fields.Integer(string='Age')

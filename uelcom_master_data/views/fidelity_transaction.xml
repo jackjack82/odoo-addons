@@ -32,6 +32,7 @@
                 <field name="shop"/>
                 <field name="amount"/>
                 <field name="points"/>
+                <field name="date"/>
             </tree>
         </field>
     </record>
