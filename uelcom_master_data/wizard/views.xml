@@ -9,6 +9,7 @@
                     <sheet>
                         <group>
                             <field name="clear_previous"/>
+                            <field name="num_operations"/>
                         </group>
                         <group col="6">
                             <group string="Dates and hours" colspan="2">
@@ -59,8 +60,9 @@
             id="partner_analysis_wizard_menu"
             name="Set client analysis"
             string="Set client analysis"
-            parent="menu_fidelity_management_group"
+            parent="uelcom_master_data.menu_fidelity_management_group"
             action="partner_analysis_wizard_action"
+            sequence="200"
             />
 
     </data>

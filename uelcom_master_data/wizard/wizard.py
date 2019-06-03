@@ -11,6 +11,9 @@ class PartnerAnalysisWizard(models.TransientModel):
     clear_previous = fields.Boolean(
         string='Clear previous selection', default=True,
         help="If flagged all previous selection will be removed.")
+    num_operations = fields.Integer(
+        string='Number of operations',
+        help="Max number of operations the user has done.")
     result_order = fields.Selection([
         ('DESC', 'ASC'), ('ASC', 'DESC')], default='ASC')
     limit = fields.Integer('Limit in research')
@@ -35,7 +38,8 @@ class PartnerAnalysisWizard(models.TransientModel):
     def partner_analysis(self):
         partner_obj = self.env['res.partner']
         limit = "LIMIT {}".format(self.limit) if self.limit else ""
-
+        num_operations = "AND num_operations <= {}".format(
+            self.num_operations) if self.num_operations else ""
         # manage time errors and query
         local_timezone = pytz.timezone(self._context.get('tz'))
         if not local_timezone:
@@ -58,7 +62,8 @@ class PartnerAnalysisWizard(models.TransientModel):
             hours_range = ""
 
         main_query = """
-        SELECT partner_id, sum(amount) as amount, sum(points) as points
+        SELECT partner_id, count(partner_id) AS num_operations, 
+            sum(amount) as amount, sum(points) as points
         FROM (
                     SELECT  partner_id, amount, points, date, 
                     CAST(date::timestamp::time AS time) AS time_detail
@@ -80,7 +85,11 @@ class PartnerAnalysisWizard(models.TransientModel):
         self.env.cr.execute(main_query)
         lines = self.env.cr.fetchall()
 
-        client_ids = [x[0] for x in lines]
+        client_ids = []
+        for line in lines:
+            if not 0 < line[1] <= self.num_operations:
+                continue
+            client_ids.append(line[0])
         # set to false the parameter on ALL partners
         if self.clear_previous:
             partners = partner_obj.search([
