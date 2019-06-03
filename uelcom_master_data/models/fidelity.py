@@ -25,3 +25,6 @@ class FidelityVoucher(models.Model):
     shop = fields.Char(string='Shop')
     value = fields.Float(string='Value')
     points = fields.Integer(string='Points')
+    status = fields.Char(string='Status')
+    typology = fields.Char(string='Typology')
+    used_moviment = fields.Char(string='Used Moviment')

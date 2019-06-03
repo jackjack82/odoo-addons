@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <act_window id="action_fidelity_voucher_management"
+      name="Vouchers"
+      res_model="fidelity.voucher"
+      view_mode="tree,form,pivot,graph"/>
+
+    <menuitem id='menu_fidelity_voucher_management'
+      string='Vouchers'
+      parent="uelcom_master_data.menu_fidelity_management_group"
+      action="action_fidelity_voucher_management"
+      sequence='40'/>
+
+    <record id="fidelity_voucher_view_tree" model="ir.ui.view">
+        <field name="name">fidelity.voucher.tree</field>
+        <field name="model">fidelity.voucher</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="partner_id"/>
+                <field name="shop"/>
+                <field name="value"/>
+                <field name="points"/>
+                <field name="date"/>
+                <field name="status"/>
+                <field name="typology"/>
+                <field name="used_moviment"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

@@ -12,15 +12,15 @@
       name='Fidelity Management'
       parent="menu_fidelity_management_main"/>
 
-    <act_window id="action_fidelity_management"
+    <act_window id="action_fidelity_transaction_management"
       name="Transaction"
       res_model="fidelity.transaction"
       view_mode="tree,form,pivot,graph"/>
 
-    <menuitem id='menu_fidelity_management'
+    <menuitem id='menu_fidelity_transaction_management'
       string='Transactions'
       parent="menu_fidelity_management_group"
-      action="action_fidelity_management"
+      action="action_fidelity_transaction_management"
       sequence='10'/>
 
     <record id="fidelity_transaction_view_tree" model="ir.ui.view">
