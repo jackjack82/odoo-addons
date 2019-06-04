@@ -11,6 +11,11 @@ class PartnerAnalysisWizard(models.TransientModel):
     clear_previous = fields.Boolean(
         string='Clear previous selection', default=True,
         help="If flagged all previous selection will be removed.")
+    no_operations = fields.Boolean(
+        string='No operations', default=False,
+        help="Select clients with NO operations, this overrides "
+             "all the filters below!")
+
     num_operations = fields.Integer(
         string='Number of operations',
         help="Max number of operations the user has done.")
@@ -40,6 +45,9 @@ class PartnerAnalysisWizard(models.TransientModel):
         help="Set days in numerical value starting from Monday i.e. "
              "Monday=1, Tuesday=2 ... in the following format: 1,2,3,4")
 
+    max_amount = fields.Integer('Max amount')
+    min_amount = fields.Integer('Min amount')
+
     def partner_analysis(self):
         partner_obj = self.env['res.partner']
         limit = "LIMIT {}".format(self.limit) if self.limit else ""
@@ -65,8 +73,11 @@ class PartnerAnalysisWizard(models.TransientModel):
             hours_range = ""
 
         # adding weekday filter
-        weekdays = tuple([int(z) for z in self.weekdays_filter.split(',')])*2
-        day_filter = "AND weekday in {}".format(weekdays)
+        weekdays = ''
+        day_filter = ''
+        if self.weekdays_filter:
+            weekdays = tuple([int(z) for z in self.weekdays_filter.split(',')])*2
+            day_filter = "AND weekday in {}".format(weekdays)
 
         main_query = """
         SELECT partner_id, count(partner_id) AS num_operations, 
@@ -99,8 +110,18 @@ class PartnerAnalysisWizard(models.TransientModel):
         client_ids = []
 
         for line in lines:
-            if not 0 < line[1] <= self.num_operations:
+            # filtering clients with limited num of operations
+            if (self.num_operations and
+                    not 0 < line[1] <= self.num_operations):
                 continue
+            # filtering clients per operation amount
+            if (self.max_amount and
+                    line[2] > self.max_amount):
+                continue
+            if (self.min_amount and
+                    self.min_amount > line[2]):
+                continue
+
             client_ids.append(line[0])
 
         # set to false the parameter on ALL partners

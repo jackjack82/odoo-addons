@@ -22,6 +22,8 @@ class FidelityTransaction(models.Model):
     @api.depends('date')
     def _compute_weekday(self):
         for transaction in self:
+            if not transaction.date:
+                continue
             transaction.weekday = transaction.date.weekday() + 1
 
 
@@ -38,3 +40,4 @@ class FidelityVoucher(models.Model):
     status = fields.Char(string='Status')
     typology = fields.Char(string='Typology')
     used_moviment = fields.Char(string='Used Moviment')
+

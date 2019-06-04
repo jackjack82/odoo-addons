@@ -30,6 +30,8 @@
                                 <field name="limit"/>
                                 <field name="num_operations"/>
                                 <field name="weekdays_filter"/>
+                                <field name="max_amount"/>
+                                <field name="min_amount"/>
 
                             </group>
                             <group string="Optional" colspan="2">

@@ -13,6 +13,7 @@
                         <field name="sex"/>
                         <field name="age"/>
                         <field name="total_points"/>
+                        <field name="total_voucher"/>
                         <field name="total_amount"/>
                         <field name="fidelity_selection"/>
                     </group>
