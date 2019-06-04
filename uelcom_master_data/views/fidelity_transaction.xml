@@ -33,6 +33,7 @@
                 <field name="amount"/>
                 <field name="points"/>
                 <field name="date"/>
+                <field name="weekday"/>
             </tree>
         </field>
     </record>

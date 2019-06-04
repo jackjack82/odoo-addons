@@ -35,11 +35,14 @@ class PartnerAnalysisWizard(models.TransientModel):
     from_hr = fields.Char(string='From:', help="Write hour in format HH:MM")
     to_hr = fields.Char(string='To:', help="Write hour in format HH:MM")
 
+    weekdays_filter = fields.Char(
+        string='Weekdays',
+        help="Set days in numerical value starting from Monday i.e. "
+             "Monday=1, Tuesday=2 ... in the following format: 1,2,3,4")
+
     def partner_analysis(self):
         partner_obj = self.env['res.partner']
         limit = "LIMIT {}".format(self.limit) if self.limit else ""
-        num_operations = "AND num_operations <= {}".format(
-            self.num_operations) if self.num_operations else ""
         # manage time errors and query
         local_timezone = pytz.timezone(self._context.get('tz'))
         if not local_timezone:
@@ -61,16 +64,21 @@ class PartnerAnalysisWizard(models.TransientModel):
         else:
             hours_range = ""
 
+        # adding weekday filter
+        weekdays = tuple([int(z) for z in self.weekdays_filter.split(',')])*2
+        day_filter = "AND weekday in {}".format(weekdays)
+
         main_query = """
         SELECT partner_id, count(partner_id) AS num_operations, 
             sum(amount) as amount, sum(points) as points
         FROM (
-                    SELECT  partner_id, amount, points, date, 
+                    SELECT  partner_id, amount, points, date, weekday,
                     CAST(date::timestamp::time AS time) AS time_detail
             FROM fidelity_transaction ft
             ) AS data
         WHERE date BETWEEN '{_01}' AND '{_02}'
         {_05}
+        {_06}
 
         GROUP BY partner_id
         ORDER BY points {_03}
@@ -80,16 +88,21 @@ class PartnerAnalysisWizard(models.TransientModel):
                    _03=self.result_order,
                    _04=limit,
                    _05=hours_range,
+                   _06=day_filter,
                    )
 
         self.env.cr.execute(main_query)
         lines = self.env.cr.fetchall()
 
+        # due to SQL query results, it is easier to filter data using
+        # python based on the result of the query
         client_ids = []
+
         for line in lines:
             if not 0 < line[1] <= self.num_operations:
                 continue
             client_ids.append(line[0])
+
         # set to false the parameter on ALL partners
         if self.clear_previous:
             partners = partner_obj.search([
