@@ -73,10 +73,10 @@ class PartnerAnalysisWizard(models.TransientModel):
             hours_range = ""
 
         # adding weekday filter
-        weekdays = ''
         day_filter = ''
         if self.weekdays_filter:
-            weekdays = tuple([int(z) for z in self.weekdays_filter.split(',')])*2
+            weekdays = tuple([int(z) for z in self.weekdays_filter.split(
+                ',')])*2
             day_filter = "AND weekday in {}".format(weekdays)
 
         main_query = """
@@ -131,9 +131,14 @@ class PartnerAnalysisWizard(models.TransientModel):
             ])
             partners.update({'fidelity_selection': False})
 
-        # managing optional parameters
+        # in case of clients with no operations, we will make a new search
+        # and remove the clients filtered above
+        if self.no_operations:
+            all_partners = self.env['res.partner'].search([])
+            client_ids = [x.id for x in all_partners if x.id not in client_ids]
         clients = partner_obj.browse(client_ids)
 
+        # managing optional parameters
         if self.sex:
             clients = clients.filtered(lambda c: c.sex == self.sex)
         if self.age_to and self.age_from > self.age_to:

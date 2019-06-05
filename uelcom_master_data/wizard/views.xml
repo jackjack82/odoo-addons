@@ -9,6 +9,7 @@
                     <sheet>
                         <group>
                             <field name="clear_previous"/>
+                            <field name="no_operations"/>
                         </group>
                         <group col="6">
                             <group string="Dates and hours" colspan="2">
