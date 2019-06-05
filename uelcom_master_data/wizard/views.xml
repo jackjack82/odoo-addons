@@ -1,0 +1,74 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="partner_analysis_wizard_form">
+            <field name="name">partner.analysis.wizard.form</field>
+            <field name="model">partner.analysis.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="clear_previous"/>
+                            <field name="no_operations"/>
+                        </group>
+                        <group col="6">
+                            <group string="Dates and hours" colspan="2">
+                                <field name="date_from" required='1'/>
+                                <field name="date_to" required='1'/>
+                                <field name="select_hours"/>
+                                <field name="from_hr" attrs="{
+                                'invisible':[('select_hours', '!=', True)],
+                                'required':[('select_hours', '!=', False)],
+                                }"/>
+                                <field name="to_hr" attrs="{
+                                'invisible':[('select_hours', '!=', True)],
+                                'required':[('select_hours', '!=', False)],
+                                }"/>
+                            </group>
+                            <group string="Required" colspan="2">
+
+                                <field name="result_order" required='1'/>
+                                <field name="limit"/>
+                                <field name="num_operations"/>
+                                <field name="weekdays_filter"/>
+                                <field name="max_amount"/>
+                                <field name="min_amount"/>
+
+                            </group>
+                            <group string="Optional" colspan="2">
+                                <field name="sex"/>
+                                <field name="age_from"/>
+                                <field name="age_to"/>
+                                <field name="city"/>
+                                <field name="state_id"/>
+                                <field name="country_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="partner_analysis" type="object" string="Set analysis"
+                                class="oe_highlight"/>
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="partner_analysis_wizard_action">
+            <field name="name">Set client analysis</field>
+            <field name="res_model">partner.analysis.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+            id="partner_analysis_wizard_menu"
+            name="Set client analysis"
+            string="Set client analysis"
+            parent="uelcom_master_data.menu_fidelity_management_group"
+            action="partner_analysis_wizard_action"
+            sequence="200"
+            />
+
+    </data>
+</odoo>

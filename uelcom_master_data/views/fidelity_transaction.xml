@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <menuitem id='menu_fidelity_management_main'
+      name="Fidelity Management"
+      string="Fidelity Management"
+      sequence="100"
+    />
+
+    <menuitem id='menu_fidelity_management_group'
+      name='Fidelity Management'
+      parent="menu_fidelity_management_main"/>
+
+    <act_window id="action_fidelity_transaction_management"
+      name="Transaction"
+      res_model="fidelity.transaction"
+      view_mode="tree,form,pivot,graph"/>
+
+    <menuitem id='menu_fidelity_transaction_management'
+      string='Transactions'
+      parent="menu_fidelity_management_group"
+      action="action_fidelity_transaction_management"
+      sequence='10'/>
+
+    <record id="fidelity_transaction_view_tree" model="ir.ui.view">
+        <field name="name">fidelity.transaction.tree</field>
+        <field name="model">fidelity.transaction</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="partner_id"/>
+                <field name="shop"/>
+                <field name="amount"/>
+                <field name="points"/>
+                <field name="date"/>
+                <field name="weekday"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>
