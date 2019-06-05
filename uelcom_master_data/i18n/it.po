@@ -1,0 +1,393 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* uelcom_master_data
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-06-05 13:33+0000\n"
+"PO-Revision-Date: 2019-06-05 15:41+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#. module: uelcom_master_data
+#: code:addons/Development/Odoo/12/parts/other_addons/jackjack_addons/uelcom_master_data/wizard/wizard.py:145
+#: code:addons/uelcom_master_data/wizard/wizard.py:145
+#, python-format
+msgid "'From age' can not be smaller than 'To age'."
+msgstr "'Da età'"
+
+#. module: uelcom_master_data
+#: selection:partner.analysis.wizard,result_order:0
+msgid "ASC"
+msgstr "ASC"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_res_partner__age
+#: model:ir.model.fields,field_description:uelcom_master_data.field_res_users__age
+msgid "Age"
+msgstr "Età"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_transaction__amount
+msgid "Amount"
+msgstr "Importo"
+
+#. module: uelcom_master_data
+#: model_terms:ir.ui.view,arch_db:uelcom_master_data.partner_analysis_wizard_form
+msgid "Cancel"
+msgstr "Annulla"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__city
+msgid "City"
+msgstr "Città"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__clear_previous
+msgid "Clear previous selection"
+msgstr "Cancella selezione precedente"
+
+#. module: uelcom_master_data
+#: model_terms:ir.ui.view,arch_db:uelcom_master_data.res_partner_form_uelcom_master_data
+msgid "Clients data"
+msgstr "Dati clienti"
+
+#. module: uelcom_master_data
+#: model:ir.model,name:uelcom_master_data.model_res_partner
+msgid "Contact"
+msgstr "Contatto"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__country_id
+msgid "Country"
+msgstr "Nazione"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_transaction__create_uid
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_voucher__create_uid
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__create_uid
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_transaction__create_date
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_voucher__create_date
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__create_date
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: uelcom_master_data
+#: selection:partner.analysis.wizard,result_order:0
+msgid "DESC"
+msgstr "DESC"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_transaction__date
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_voucher__date
+msgid "Date"
+msgstr "Data"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__date_from
+msgid "Date from"
+msgstr "Data inizio"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__date_to
+msgid "Date to"
+msgstr "Data fine"
+
+#. module: uelcom_master_data
+#: model_terms:ir.ui.view,arch_db:uelcom_master_data.partner_analysis_wizard_form
+msgid "Dates and hours"
+msgstr "Date e Orari"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_transaction__display_name
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_voucher__display_name
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__display_name
+msgid "Display Name"
+msgstr "Nome visualizzato"
+
+#. module: uelcom_master_data
+#: selection:partner.analysis.wizard,sex:0 selection:res.partner,sex:0
+msgid "Female"
+msgstr "Donna"
+
+#. module: uelcom_master_data
+#: model:ir.ui.menu,name:uelcom_master_data.menu_fidelity_management_group
+#: model:ir.ui.menu,name:uelcom_master_data.menu_fidelity_management_main
+msgid "Fidelity Management"
+msgstr "Gestione Fidelizzazione"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_res_partner__fidelity_selection
+#: model:ir.model.fields,field_description:uelcom_master_data.field_res_users__fidelity_selection
+msgid "Fidelity Selection"
+msgstr "Fidelizzati"
+
+#. module: uelcom_master_data
+#: model:ir.model,name:uelcom_master_data.model_fidelity_transaction
+msgid "Fidelity Transaction"
+msgstr "Transazione\t"
+
+#. module: uelcom_master_data
+#: model:ir.model,name:uelcom_master_data.model_fidelity_voucher
+msgid "Fidelity Voucher"
+msgstr "Buono"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__age_from
+msgid "From age"
+msgstr "Da età"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__from_hr
+msgid "From:"
+msgstr "Da:"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_transaction__id
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_voucher__id
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,help:uelcom_master_data.field_partner_analysis_wizard__clear_previous
+msgid "If flagged all previous selection will be removed."
+msgstr "Se selezionato, le precedenti selezioni saranno rimosse"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_transaction____last_update
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_voucher____last_update
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard____last_update
+msgid "Last Modified on"
+msgstr "Ultima modifica il"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_transaction__write_uid
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_voucher__write_uid
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Ultimo aggiornamento di"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_transaction__write_date
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_voucher__write_date
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__write_date
+msgid "Last Updated on"
+msgstr "Ultimo aggiornamento il"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__limit
+msgid "Limit in research"
+msgstr "Limite di ricerca"
+
+#. module: uelcom_master_data
+#: selection:partner.analysis.wizard,sex:0 selection:res.partner,sex:0
+msgid "Male"
+msgstr "Uomo"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__max_amount
+msgid "Max amount"
+msgstr "Massimo"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,help:uelcom_master_data.field_partner_analysis_wizard__num_operations
+msgid "Max number of operations the user has done."
+msgstr "Numero di operazioni che l'utente ha eseguito."
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__min_amount
+msgid "Min amount"
+msgstr "Minimo"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__no_operations
+msgid "No operations"
+msgstr "Nessuna operazione"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__num_operations
+msgid "Number of operations"
+msgstr "Numero di operazioni"
+
+#. module: uelcom_master_data
+#: model_terms:ir.ui.view,arch_db:uelcom_master_data.partner_analysis_wizard_form
+msgid "Optional"
+msgstr "Opzionale"
+
+#. module: uelcom_master_data
+#: selection:res.partner,sex:0
+msgid "Other"
+msgstr "Altro"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_transaction__partner_id
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_voucher__partner_id
+msgid "Partner"
+msgstr "Contatto"
+
+#. module: uelcom_master_data
+#: model:ir.model,name:uelcom_master_data.model_partner_analysis_wizard
+msgid "Partner Analysis Wizard"
+msgstr "Wizard Analisi Contatti"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_transaction__points
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_voucher__points
+msgid "Points"
+msgstr "Punti"
+
+#. module: uelcom_master_data
+#: model_terms:ir.ui.view,arch_db:uelcom_master_data.partner_analysis_wizard_form
+msgid "Required"
+msgstr "Obbligatorio"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__result_order
+msgid "Result Order"
+msgstr "Ordine Risultato"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,help:uelcom_master_data.field_partner_analysis_wizard__no_operations
+msgid "Select clients with NO operations, this overrides all the filters below!"
+msgstr "Selezionare clienti con nessuna operazione, questo flag cancella alcuni filtri in basso."
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__select_dates
+msgid "Select dates"
+msgstr "Seleziona date"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__select_hours
+msgid "Select hours"
+msgstr "Seleziona orari"
+
+#. module: uelcom_master_data
+#: model_terms:ir.ui.view,arch_db:uelcom_master_data.partner_analysis_wizard_form
+msgid "Set analysis"
+msgstr "Esegui analisi"
+
+#. module: uelcom_master_data
+#: model:ir.actions.act_window,name:uelcom_master_data.partner_analysis_wizard_action
+#: model:ir.ui.menu,name:uelcom_master_data.partner_analysis_wizard_menu
+msgid "Set client analysis"
+msgstr "Esegui analisi clienti"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,help:uelcom_master_data.field_partner_analysis_wizard__weekdays_filter
+msgid "Set days in numerical value starting from Monday i.e. Monday=1, Tuesday=2 ... in the following format: 1,2,3,4"
+msgstr "Inserire i giorni in forma numerica partendo dal Lunedì, quindi Lunedì=1, Martedì=2 ... nel seguente formato: 1,2,3,4"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__sex
+#: model:ir.model.fields,field_description:uelcom_master_data.field_res_partner__sex
+#: model:ir.model.fields,field_description:uelcom_master_data.field_res_users__sex
+msgid "Sex"
+msgstr "Genere"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_transaction__shop
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_voucher__shop
+msgid "Shop"
+msgstr "Negozio"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__state_id
+msgid "State"
+msgstr "Provincia"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_voucher__status
+msgid "Status"
+msgstr "Stato"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__age_to
+msgid "To age"
+msgstr "All'età"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__to_hr
+msgid "To:"
+msgstr "A:"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_res_partner__total_amount
+#: model:ir.model.fields,field_description:uelcom_master_data.field_res_users__total_amount
+msgid "Total amount"
+msgstr "Valore totale"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_res_partner__total_points
+#: model:ir.model.fields,field_description:uelcom_master_data.field_res_users__total_points
+msgid "Total points"
+msgstr "Punti totali"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_res_partner__total_voucher
+#: model:ir.model.fields,field_description:uelcom_master_data.field_res_users__total_voucher
+msgid "Total voucher"
+msgstr "Buoni totali"
+
+#. module: uelcom_master_data
+#: model:ir.actions.act_window,name:uelcom_master_data.action_fidelity_transaction_management
+#: model:ir.ui.menu,name:uelcom_master_data.menu_fidelity_transaction_management
+msgid "Transaction"
+msgstr "Transazione"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_res_partner__transaction_ids
+#: model:ir.model.fields,field_description:uelcom_master_data.field_res_users__transaction_ids
+msgid "Transactions"
+msgstr "Transazioni"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_voucher__typology
+msgid "Typology"
+msgstr "Tipologia"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_voucher__used_moviment
+msgid "Used Moviment"
+msgstr "Movimento utilizzato"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_voucher__value
+msgid "Value"
+msgstr "Valore"
+
+#. module: uelcom_master_data
+#: model:ir.actions.act_window,name:uelcom_master_data.action_fidelity_voucher_management
+#: model:ir.model.fields,field_description:uelcom_master_data.field_res_partner__voucher_ids
+#: model:ir.model.fields,field_description:uelcom_master_data.field_res_users__voucher_ids
+#: model:ir.ui.menu,name:uelcom_master_data.menu_fidelity_voucher_management
+msgid "Vouchers"
+msgstr "Buoni"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_fidelity_transaction__weekday
+msgid "Weekday"
+msgstr "Giorno settimana"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,field_description:uelcom_master_data.field_partner_analysis_wizard__weekdays_filter
+msgid "Weekdays"
+msgstr "Giorni settimana"
+
+#. module: uelcom_master_data
+#: model:ir.model.fields,help:uelcom_master_data.field_partner_analysis_wizard__from_hr
+#: model:ir.model.fields,help:uelcom_master_data.field_partner_analysis_wizard__to_hr
+msgid "Write hour in format HH:MM"
+msgstr "Insrire l'ora in formatto HH:MM"
