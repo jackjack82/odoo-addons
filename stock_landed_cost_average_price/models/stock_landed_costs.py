@@ -10,9 +10,9 @@ class LandedCost(models.Model):
     _description = 'Stock Landed Cost'
 
     use_average_cost = fields.Boolean(
-        string='Use average cost only', help='Flagging this field you will apply '
-        'landed costs to products with average price costing method, any other'
-        'line will be ignored.')
+        string='Use average cost only',
+        help='Flagging this field you will apply landed costs to products with'
+             'average price costing method, any other line will be ignored.')
 
     def get_valuation_lines(self):
 
@@ -23,13 +23,15 @@ class LandedCost(models.Model):
 
         for move in self.mapped('picking_ids').mapped('move_lines'):
             # compute landed cost for product with average cost method
-            if move.product_id.valuation != 'manual_periodic' or move.product_id.cost_method != 'average':
+            if(move.product_id.valuation != 'manual_periodic' or
+                    move.product_id.cost_method != 'average'):
                 continue
             vals = {
                 'product_id': move.product_id.id,
                 'move_id': move.id,
                 'quantity': move.product_qty,
-                'former_cost': sum(quant.cost * quant.qty for quant in move.quant_ids),
+                'former_cost': sum(quant.cost * quant.qty for
+                                   quant in move.quant_ids),
                 'weight': move.product_id.weight * move.product_qty,
                 'volume': move.product_id.volume * move.product_qty
             }
@@ -53,7 +55,9 @@ class LandedCost(models.Model):
                     ctx)._compute_quantities_dict(False, False, False)
                 qty = qty_dict[product.id]['qty_available']
                 amount = round(line.additional_landed_cost / qty, 2)
-                product.update({'standard_price': product.standard_price + amount})
+                product.update({
+                    'standard_price': product.standard_price + amount
+                })
 
-                # cost.write({'state': 'done'})
+            cost.write({'state': 'done'})
         return True

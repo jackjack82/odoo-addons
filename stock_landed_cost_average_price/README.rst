@@ -3,15 +3,19 @@
    :alt: License: AGPL-3
 
 =======================================
-Client Bank Account on SO and Invoice
-=======================================amount_net_pay
+Stock Landed Cost Average Price
+=======================================
 
-This module adds a Company bank account to the partner.
-This account is automatically set on the SaleOorder and Invoice form while selecting
-the customer and is added to the sale order/invoice reports.
+This module allows to apply landed costs to products that are
+configured to be values using the Average Price method.
 
-This modules also adds a client bank account field to the invoice.
-If filled, the client's bank account is printed.
+To use the module you just need to create a landed cost as by default
+flow in Odoo, adding however a flag to the "Use average cost only" field.
+In this way the cost will be split among picking lines, as by default,
+but the landed cost will be applied to the product cost field
+(as it happens for the Average Costing method).
+
+No accounting entry will be created.
 
 
 Bug Tracker
