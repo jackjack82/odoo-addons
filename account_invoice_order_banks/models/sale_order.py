@@ -26,8 +26,10 @@ class SaleOrder(models.Model):
         - Partner bank
         """
         res = super(SaleOrder, self).onchange_partner_id()
-        self.partner_bank_id = self.partner_id.company_bank_id
-
+        if self.partner_id:
+            self.partner_bank_id = self.partner_id.commercial_partner_id.company_bank_id
+        else:
+            self.partner_bank_id = False
         return res
 
     @api.multi
