@@ -39,7 +39,7 @@ class ResPartner(models.Model):
             # transaction_ids = transaction_obj.search([
             #     ('partner_id', '=', partner.id)])
             # new_points = sum([x.points for x in transaction_ids])
-            new_points = sum(x.amount for x in partner.transaction_ids)
+            new_points = sum(x.points for x in partner.transaction_ids)
             partner.total_points = new_points
 
     @api.multi
@@ -53,6 +53,7 @@ class ResPartner(models.Model):
             partner.total_voucher = new_vouchers
 
     @api.multi
+    @api.depends('transaction_ids')
     def _compute_total_amount(self):
         transaction_obj = self.env['fidelity.transaction']
         for partner in self:
