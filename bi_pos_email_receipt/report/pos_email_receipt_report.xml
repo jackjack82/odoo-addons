@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+		<template id="pos_receipt_template_view">
+			<t t-call="web.external_layout">
+				<div class="page">
+					<t t-foreach="docs" t-as="o">
+						<br/>
+						<br/>
+						<div class="row" align='center' width='40'>
+							<h4 style="text-align : center;">
+								<div>
+									Customer:<span t-field="o.partner_id.name" />
+									Date:<span t-field="o.date_order" />
+								</div>
+							</h4>
+							<br />
+						</div>
+
+						<table style="border-collapse: collapse;width: 100%;" class="table table-condensed">
+							<thead style="padding: 8px;text-align: left;border-top: 1px solid #ddd;height:50%;">
+								<td>
+									<strong> Description</strong>
+								</td>
+								<td>
+									<strong> Quantity</strong>
+								</td>
+
+								<td>
+									<strong> Price </strong>
+								</td>
+								<td>
+									<strong> Discount  </strong>
+								</td>
+							</thead>
+							<tbody>
+								<t t-foreach="o.lines" t-as="line">
+									<tr style="padding: 8px;text-align: left;border-top: 1px solid #ddd;">
+										<td>
+											<span t-field="line.product_id.name" />
+										</td>
+										<td>
+											<span t-field="line.qty" />
+										</td>
+										<td>
+											<span t-field="line.price_unit" />
+										</td>
+										<td>
+											<span t-field="line.discount" />
+										</td>
+									</tr>
+								</t>
+							</tbody>
+						</table>
+						
+						<br/> 
+						<table  class="table table-sm">
+							<tbody>
+							<tr style="text-align:right;">
+								<td colspan="3" >Taxes</td><td><t t-esc="o.amount_tax" t-options="{'widget': 'float', 'precision': currency_precision}"/></td>
+							</tr>
+							<tr style="text-align:right;">
+								<td colspan="3" > Amount</td><td><t t-esc=" o.amount_total" t-options="{'widget': 'float', 'precision': currency_precision}"/></td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<h3>Payments</h3>
+						<table  class="table table-sm">
+							<thead><tr>
+								<th>Payment Mode</th>
+								<th>Amount</th>
+							</tr></thead>
+							<tbody>
+							<tr t-foreach='o.statement_ids' t-as='payment'>
+								<td><span t-field="payment.journal_id.name" /></td>
+								<td><span t-field="payment.amount" t-options="{'widget': 'float', 'precision': currency_precision}"/></td>
+							</tr>
+							</tbody>
+						</table>
+					</t>
+				</div>
+			</t>
+		</template>
+
+
+	<template id="pos_order_receipt_temp_id">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="doc">
+				<t t-call="bi_pos_email_receipt.pos_receipt_template_view" /><!-- 
+					t-lang="doc.partner_id.lang" -->
+			</t>
+		</t>
+	</template>
+
+	<record id="pos_paper_format" model="report.paperformat">
+			<field name="name">POS Details</field>
+			<field name="default" eval="True" />
+			<field name="format">custom</field>
+			<field name="page_height">200</field>
+			<field name="page_width">95</field>
+			<field name="margin_top">40</field>
+			<field name="margin_bottom">15</field>
+			<field name="margin_left">5</field>
+			<field name="margin_right">5</field>
+			<field name="header_line" eval="False" />
+			<field name="orientation">Portrait</field>
+			<field name="header_spacing">36</field>
+			<field name="dpi">110</field>
+		</record>
+
+
+	<report id="pos_emails"
+			string="POS Email Receipt"
+			model="pos.order"
+			report_type="qweb-pdf"
+			file="bi_pos_email_receipt.pos_order_receipt_temp_id"
+			name="bi_pos_email_receipt.pos_order_receipt_temp_id"
+			paperformat="bi_pos_email_receipt.pos_paper_format"
+			/>
+			
+</odoo>

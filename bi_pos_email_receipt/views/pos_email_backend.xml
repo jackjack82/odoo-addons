@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<odoo>
+	<data>
+		<template id='assets_pos_order_email' name='pos_order_email' inherit_id='point_of_sale.assets'>
+			<xpath expr='.' position='inside'>
+				<script type='text/javascript' src='bi_pos_email_receipt/static/src/js/pos_email.js'/>
+			</xpath>
+		</template>
+	</data>
+</odoo>

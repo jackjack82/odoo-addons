@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+		<!--Email template -->
+		<record id="email_template_pos_ticket" model="mail.template">
+			 <field name="name">POS receipt - Send by Email</field>
+			<field name="subject">${object.pos_reference} (${object.name or 'n/a'})</field>
+			<!-- <field name="email_to">${object.partner_id.email|safe}</field> -->
+			<field name="model_id" ref="bi_pos_email_receipt.model_pos_order" />
+			<field name="auto_delete" eval="True" />
+			<field name="lang">${object.partner_id.lang}</field>
+			<!-- <field name="report_template" ref="bi_pos_email_receipt.pos_emails"/> -->
+			<field name="report_name">${(object.pos_reference or '').replace('/','_')}</field>
+			<field name="body_html" type="html">
+				<div style="margin: 0px; padding: 0px;">
+					<p style="margin: 0px; padding: 0px; font-size: 13px;">
+						Dear ${object.partner_id.name}
+						  % if object.partner_id.parent_id:
+							(${object.partner_id.parent_id.name})
+						% endif
+						<br /><br />
+						order ${object.name} receipt is available for you.
+						<br /><br />
+						Reference
+						<br /><br />
+						<div style="padding-left: 34px;background-color: beige;max-width: 500px;}">
+						Responsible:
+						%if object.user_id.name: 
+						<strong>${object.user_id.name} </strong>
+						%endif
+						<br />
+						Point Of Sale:
+						%if object.config_id.name:
+						 <strong>${object.config_id.name} </strong>
+						%endif
+						<br />
+						Order Date:
+						%if object.date_order:
+							<strong>${object.date_order} </strong>
+						%endif
+						<br />
+						Total Amount:
+						%if object.amount_total:
+						 <strong>${object.amount_total} </strong>
+						%endif
+						<br />
+						%if object.order_loyalty:
+							Gained Points:  <strong>${object.order_loyalty} </strong>
+						%endif
+						<br />
+						%if object.redeemed_points:
+							Redeemed Points:  <strong>${object.redeemed_points} </strong>
+						%endif
+						<br />
+						%if object.partner_id.loyalty_points:
+							Total Points:  <strong>${object.partner_id.loyalty_points} </strong>
+						%endif
+						<br/><br/>
+						</div>
+						<br/><br/>
+						<div style="width: 247px;border: 14px solid beige;padding: 10px;margin: 20px;">
+						%if object.company_id.name:
+						<strong>${object.company_id.name} </strong>
+						<br/>
+						%if object.company_id.state:
+						<strong>${object.company_id.street} </strong>
+						%endif
+						%if object.company_id.state2:
+						<strong>${object.company_id.street2} </strong>
+						%endif
+						<br/>
+						%if object.company_id.city:
+						<strong>${object.company_id.city} </strong>
+						%endif
+						%if object.company_id.state_id:
+						<strong>${object.company_id.state_id.name} </strong>
+						%endif
+						<br/>
+						%if object.company_id.country_id:
+						<strong>${object.company_id.country_id.name} </strong>
+						%endif
+						%if object.company_id.zip:
+						<strong>${object.company_id.zip} </strong>
+						%endif
+						<br/>
+						Phone:
+						%if object.company_id.phone:
+						<strong>${object.company_id.phone} </strong>
+						%endif
+						<br/>
+						Website:
+						%if object.company_id.website:
+						<strong>${object.company_id.website} </strong>
+						%endif
+						<br/>
+						%endif
+						</div>
+						<br />
+						Thank You
+					</p>
+				</div>
+				
+			</field>
+			
+		</record>
+		
+</odoo>
+
