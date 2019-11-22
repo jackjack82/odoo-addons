@@ -118,7 +118,10 @@
 						<field name="partner_id"/>			
 						<field name="transaction_type"/>	
 						<field name="date"/>
+						<field name="partner_barcode"/>
+						<field name="partner_vat"/>
 						<field name="points"/>
+						<field name="total_points"/>
 				</tree>
 			</field>
 		</record>
@@ -137,7 +140,7 @@
 									<field name="order_id"/>
 									<field name="partner_id"/>
 									<field name="user_id"/>
-									<field name="user_barcode"/>
+									<field name="partner_barcode"/>
 									<field name="session_id"/>
 								</group>
 								<group>
@@ -146,6 +149,7 @@
 									<field name="points"/>
 									<field name="product_id" attrs="{'invisible': [('transaction_type', '=', 'credit')]}"/>
 									<field name="voucher_amount" attrs="{'invisible': [('product_id', '=', False)]}"/>
+									<field name="partner_vat"/>
 								</group>
 							</group>
 						</sheet>

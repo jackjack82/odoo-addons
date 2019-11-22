@@ -15,7 +15,6 @@ odoo.define('pos_loyalty_odoo.pos', function(require) {
 	var remove_line;
 	var remove_true = false;
 	var entered_code = 0;
-	var redeemed_points = 0;
 	// Load Models
 	models.load_models({
 		model: 'pos.loyalty.setting',
@@ -55,6 +54,8 @@ odoo.define('pos_loyalty_odoo.pos', function(require) {
 		initialize: function(attributes, options) {
 			OrderSuper.prototype.initialize.apply(this, arguments);
 			this.set({ redeem_done: false });
+			this.redeemed_points = this.redeemed_points || 0;
+
 		},
 		
 		remove_orderline: function(line) {
@@ -93,7 +94,7 @@ odoo.define('pos_loyalty_odoo.pos', function(require) {
 		},
 
 		get_redeemed_points: function() {
-			return parseInt(redeemed_points);
+			return parseInt(this.redeemed_points);
 		},
 
 		export_as_JSON: function() {
@@ -103,7 +104,7 @@ odoo.define('pos_loyalty_odoo.pos', function(require) {
 			if (selectedOrder != undefined) {
 				if(selectedOrder.get('redeem_done') == true)
 				{
-					json.redeemed_points = parseInt(redeemed_points);
+					json.redeemed_points = parseInt(this.redeemed_points);
 					json.loyalty = this.get_total_loyalty();
 				}
 				else{
@@ -214,6 +215,22 @@ odoo.define('pos_loyalty_odoo.pos', function(require) {
 			options = options || {};
 			var self = this;
 			this._super(options);
+			$('body').keypress(this.keyboard_handler);
+			$('body').keydown(this.keyboard_keydown_handler);
+			window.document.body.addEventListener('keypress',this.keyboard_handler);
+			window.document.body.addEventListener('keydown',this.keyboard_keydown_handler);
+			$('#entered_item_qty').on('focus', function() {
+				$('body').off(this.keyboard_handler);
+				$('body').off(this.keyboard_keydown_handler);
+				window.document.body.removeEventListener('keypress', self.keyboard_handler);
+				window.document.body.removeEventListener('keydown', self.keyboard_keydown_handler);
+			});
+			$('#entered_item_qty').on('change', function() {
+				$('body').keypress(this.keyboard_handler);
+				$('body').keydown(this.keyboard_keydown_handler);
+				window.document.body.addEventListener('keypress', this.keyboard_handler);
+				window.document.body.addEventListener('keydown', self.keyboard_keydown_handler);
+			});
 			var order = this.pos.get_order();
 			var loyalty_setting = this.pos.pos_loyalty_setting;             
 			var partner = false
@@ -274,7 +291,7 @@ odoo.define('pos_loyalty_odoo.pos', function(require) {
 						quantity: parseInt(entered_code),
 					});
 					update_orderline_loyalty = self.loyalty -  used_points;
-					redeemed_points = used_points;
+					order.redeemed_points = used_points;
 					remove_line = orderlines.models[orderlines.length-1].id;
 					order.set('update_after_redeem',update_orderline_loyalty);
 					update_orderline_loyalty = update_orderline_loyalty;
@@ -312,6 +329,10 @@ odoo.define('pos_loyalty_odoo.pos', function(require) {
 			var order = this.pos.get_order();
 			var self = this;
 			var partner = false
+			$('body').keypress(this.keyboard_handler);
+			$('body').keydown(this.keyboard_keydown_handler);
+			window.document.body.addEventListener('keypress',this.keyboard_handler);
+			window.document.body.addEventListener('keydown',this.keyboard_keydown_handler);
 			if(order.orderlines.length>0)
 			{
 				if(this.pos.pos_loyalty_setting.length != 0)
@@ -334,6 +355,20 @@ odoo.define('pos_loyalty_odoo.pos', function(require) {
 					}
 					else{
 						this.gui.show_popup('redeem_loyalty_popup_widget', {'partner':partner});
+						window.document.body.removeEventListener('keypress',self.keyboard_handler);
+						window.document.body.removeEventListener('keydown',self.keyboard_keydown_handler);
+						$('#entered_item_qty').on('focus', function() {
+							$('body').off(this.keyboard_handler);
+							$('body').off(this.keyboard_keydown_handler);
+							window.document.body.removeEventListener('keypress', self.keyboard_handler);
+							window.document.body.removeEventListener('keydown', self.keyboard_keydown_handler);
+						});
+						$('#entered_item_qty').on('change', function() {
+							$('body').keypress(this.keyboard_handler);
+							$('body').keydown(this.keyboard_keydown_handler);
+							window.document.body.addEventListener('keypress', this.keyboard_handler);
+							window.document.body.addEventListener('keydown', self.keyboard_keydown_handler);
+						});
 					} 
 				}    
 			}

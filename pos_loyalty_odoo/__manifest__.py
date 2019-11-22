@@ -3,7 +3,7 @@
 
 {
     "name" : "POS Loyalty and Rewards Program in Odoo",
-    "version" : "12.0.1.3",
+    "version" : "12.0.1.4",
     "category" : "Point of Sale",
     "depends" : ['base','sale','point_of_sale'],
     "author": "BrowseInfo",

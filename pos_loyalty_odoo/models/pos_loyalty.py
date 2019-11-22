@@ -21,7 +21,7 @@ class res_partner(models.Model):
 	prev_points = fields.Integer('Prev Loyalty Points')
 	loyalty_amount = fields.Float('Loyalty Amount')
 	dob = fields.Date('Date Of Birth')
-	gender = fields.Selection([('male','Male'),('female','Female'), ('other','Other')], string="Gender", default='male')
+	gender = fields.Selection([('male','Male'),('female','Female'), ('other','Other')], string="Gender")
 	history_ids = fields.One2many('pos.loyalty.history','partner_id',string="Loyalty history")
 		
 class pos_loyalty_setting(models.Model):
@@ -86,11 +86,12 @@ class pos_loyalty_history(models.Model):
 		
 	order_id  = fields.Many2one('pos.order','POS Order')
 	partner_id  = fields.Many2one('res.partner','Customer')
+	partner_barcode = fields.Char('Partner Barcode', related='partner_id.barcode')
+	partner_vat = fields.Char('Partner VAT', related='partner_id.vat')
 	date  =  fields.Datetime(default = datetime.now(), )
 	transaction_type = fields.Selection([('credit', 'Credit'), ('debit', 'Debit')], string='Transaction Type', help='credit/debit loyalty transaction in POS.')
 	points = fields.Integer('Gained/Used Points')
 	user_id =  fields.Many2one('res.users','User')
-	user_barcode = fields.Char('User Barcode', related='user_id.barcode')
 	total_points = fields.Integer('Total Loyalty Points')
 	session_id  = fields.Many2one('pos.session',"POS session")
 	product_id = fields.Many2one('product.product','Voucher Product', domain = [('type', '=', 'service'),('available_in_pos','=',True)])

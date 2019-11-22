@@ -24,9 +24,18 @@ odoo.define('bi_pos_email_receipt.pos_email', function(require){
 			this.options = {};
 		},
 		events: {
-		'click .button.cancel':  'click_cancel',
+		'click .button.confirm':  'click_confirm1',
+		'click .button.cancel':  'close_popup1',
 		},
-		click_cancel: function(){
+
+		close_popup1: function(ev){
+			ev.stopPropagation();
+			ev.preventDefault(); 
+			ev.stopImmediatePropagation();
+		   	this.gui.close_popup(); 
+		},
+
+		click_confirm1: function(){
 			var self = this;
 			var order = this.pos.get_order();
 			var new_email = this.$("#entered_email").val()
@@ -42,6 +51,7 @@ odoo.define('bi_pos_email_receipt.pos_email', function(require){
 				   if(output){
 					// partner_model.domain.push(['shop_ids','in',output]);
 					self.gui.close_popup();
+					self.gui.show_screen('clientlist');
 					}              
 				});
 
@@ -83,13 +93,25 @@ odoo.define('bi_pos_email_receipt.pos_email', function(require){
 
 		show: function(){
 			var self = this;
-			$('body').keypress(this.keyboard_handler);
-			$('body').keydown(this.keyboard_keydown_handler);
-			window.document.body.addEventListener('keypress',this.keyboard_handler);
-			window.document.body.addEventListener('keydown',this.keyboard_keydown_handler);
+			var order  = self.pos.get_order();
+			var client = order.get_client();
+			if(client && client.email)
+			{	
+				this.$('.button.email').addClass('highlight');
+				order.set_staystr(true)
+			}
+			else{
+				this.$('.button.email').removeClass('highlight');
+				order.set_staystr(false)
+			}
+			
 			this._super();
 			
 			self.$('.button.editemail').click(function(){
+				$('body').keypress(this.keyboard_handler);
+				$('body').keydown(this.keyboard_keydown_handler);
+				window.document.body.addEventListener('keypress',this.keyboard_handler);
+				window.document.body.addEventListener('keydown',this.keyboard_keydown_handler);
 				self.gui.show_popup('pos_email_popup_widget', {});
 				window.document.body.removeEventListener('keypress',self.keyboard_handler);
 				window.document.body.removeEventListener('keydown',self.keyboard_keydown_handler);
@@ -106,9 +128,6 @@ odoo.define('bi_pos_email_receipt.pos_email', function(require){
 					window.document.body.addEventListener('keydown', self.keyboard_keydown_handler);
 				});
 			});
-
-			
-			
 		},
 
 
@@ -143,7 +162,6 @@ odoo.define('bi_pos_email_receipt.pos_email', function(require){
 						body: _t('Please select customer first.'),
 					});
 				}
-				
 			});
 	},
 	});

@@ -17,4 +17,7 @@ version 12.0.1.2: (Date: 9-4-2019)
 - Customization for simon (8-11-19)
 
 Version 12.0.1.3 (12-11-19)
-- Solve issue of loyalty history update and add points in email .
+		- Solve issue of loyalty history update and add points in email .
+
+Version 12.0.1.4 (21-11-19)
+		- Solve issue of keypress and customization for simon .

@@ -3,7 +3,7 @@
 
 {
     "name" : "POS Email Receipt in Odoo ",
-    "version" : "12.0.0.1",
+    "version" : "12.0.0.2",
     "category" : "",
     'summary': 'This module used to send POS order receipt to customer by email. you can update customers mail id from POS',
     "description": """

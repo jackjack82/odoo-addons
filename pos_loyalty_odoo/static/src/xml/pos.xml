@@ -3,6 +3,16 @@
 
 		<!-- ClientDetails -->
 		<t t-extend="ClientDetails">
+			<t t-jquery=".client-details-left" t-operation="append">
+				<div class="client-detail">
+					<span class='label'>DOB</span>
+					<span> <t t-esc='partner.dob or "-"'/></span>
+				</div>
+				<div class="client-detail">
+					<span class='label'>Gender</span>
+					<span> <t t-esc='partner.gender  or "-"'/></span>
+				</div>
+			</t>
 			<t t-jquery=".client-details-right" t-operation="append">
 				<div class="client-detail">
 					<span class='label'>Loyalty Points</span>
@@ -11,10 +21,30 @@
 			</t>
 		</t>
 
+		<t t-extend="ClientDetailsEdit">
+			<t t-jquery=".client-details-left" t-operation="append">
+				<div class='client-detail'>
+					<span class='label'>DOB</span>
+					<input class='detail client-dob' type="date"   name='dob'         t-att-value='partner.dob || ""' placeholder='DOB'></input>
+				</div>
+				<div class='client-detail'>
+					<span class='label'>Gender</span>
+					<!-- <input class='detail client-gender'   name='gender'         t-att-value='partner.gender || ""' placeholder='Gender'></input> -->
+					<select class='detail client-gender needsclick' name='gender'>
+						<option value="male">Male</option>
+						<option value="female">Female</option>
+						<option value="other">Other</option>
+					</select>
+				</div>
+			</t>
+		</t>
 
-	 <!-- ClientListScreenWidget -->
+
+	 	<!-- ClientListScreenWidget -->
 		<t t-extend="ClientListScreenWidget">
 			<t t-jquery="tr" t-operation="append">
+				<th>DOB</th>
+				<th>Gender</th>
 				<th>Loyalty Points</th>
 			</t>
 		</t>
@@ -22,6 +52,12 @@
 	  <!-- ClientLineWidget -->
 		<t t-extend="ClientLine">
 			<t t-jquery="tr.client-line" t-operation="append">
+				<td class="text-center">
+					<center><t t-esc='partner.dob  or "-"' /></center>
+				</td>
+				<td class="text-center">
+					<center><t t-esc='partner.gender or "-"' /></center>
+				</td>
 				<td class="text-center">
 					<center><t t-esc='partner.loyalty_points or "0"' /></center>
 				</td>
@@ -44,16 +80,17 @@
 			<div class="modal-dialog">
 				<div class="popup" style="height: 370px !important;">
 					<p class="title" style="background-color: rgb(110,200,155); color: #fff;">Loyalty Redemption</p>
-					<p class="body" style="color: #0075AC;">Hello <b><t t-esc="widget.partner"/> !!! </b></p>
-					<p class="body" style="color: #0075AC;">You have : 
-						<b style="margin: 0px 5px;"><t t-esc="widget.loyalty"/></b> Loyalty Point(s) 
-					</p> 
-					<p class="body" style="color: #0075AC;"> 
-						You have : <b style="margin: 0px 5px;"><t t-esc="widget.vouchers"/></b> Voucher(s)
-					</p>
-					<div>
-						<p class="body" style="color: #0075AC;">Enter number of voucher to Redeem: </p>
-						<input id ="entered_item_qty" type="number" placeholder="Enter number of voucher to redeem" class="input-field" name="code"></input>
+					<div class="body">
+						<p  style="color: #0075AC;">Hello <b><t t-esc="widget.partner"/> !!! </b></p>
+						<p  style="color: #0075AC;">You have : 
+							<b style="margin: 0px 5px;"><t t-esc="widget.loyalty"/></b> Loyalty Point(s) 
+						</p> 
+						<p style="color: #0075AC;"> 
+							You have : <b style="margin: 0px 5px;"><t t-esc="widget.vouchers"/></b> Voucher(s)
+						</p>
+						<p style="color: #0075AC;">Enter number of voucher to Redeem: </p>
+
+						<input id ="entered_item_qty" type="text" placeholder="Enter number of voucher to redeem" class="input-field" name="code"></input>
 					</div>
 					<div class="footer" style="background-color: rgb(110,200,155); color: #fff;">
 						<div class="button cancel" style="background-color: #0075AC; color: #fff;">

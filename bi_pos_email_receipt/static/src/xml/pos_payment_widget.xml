@@ -2,36 +2,35 @@
 	<templates id="Email Reciept">
 		<t t-extend="PaymentScreenWidget">
 			<t t-jquery='.button.back' t-operation='after'>
-                <span class='button email' style="left: 0px; margin-left: 154px;">
-               		<i class='fa fa-envelope'></i>
-                	Email Receipt
-           		</span>
-                <span class='button editemail' style="left: 0px; margin-left: 325px;">
-                    <i class='fa fa-edit'></i>
-                </span>
+				<span class='button email' style="left: 0px; margin-left: 154px;">
+					<i class='fa fa-envelope'></i>
+					Email Receipt
+				</span>
+				<span class='button editemail' style="left: 0px; margin-left: 325px;">
+					<i class='fa fa-edit'></i>
+				</span>
 
 			</t>
 		</t>
 
 		<t t-name="PosEmailWidget">
-        <div class="modal-dialog">
-            <div class="popup popup-textinput" style="height: 250px !important;">
-                <p class="title" style="background-color: rgb(110,200,155); color: #fff;">Email</p>
-                <p class="body" style="color: #0075AC; margin-top: 3px;">Your Email Address</p>
-                 <input id ="entered_email" type="text" class='input' name="code" style="margin-left: 52px;"></input>
-                <div class="footer" style="background-color: rgb(110,200,155); color: #fff;">
-                	<div style = "display: inline-flex;margin-top: 21px;margin-left: -89px;">
-                    <input type="checkbox" name="update_email" id="update_email" style="min-height: 15px !important;width: 25px !important;box-shadow: none !important;"/><label>Update Your Email</label>
-                    </div>
-                    <div class="button cancel" style="background-color: #0075AC; color: #fff;">
-                        OK 
-                    </div>
-                    <!-- <div class="button confirm" id="apply_note" style="background-color: #0075AC; color: #fff;">
-                        Apply 
-                    </div> -->
-
-                </div>
-            </div>
-        </div>
-    </t>
+			<div class="modal-dialog">
+				<div class="popup popup-textinput" style="height: 250px !important;">
+					<p class="title" style="background-color: rgb(110,200,155); color: #fff;">Email</p>
+					<p class="body" style="color: #0075AC; margin-top: 3px;">Your Email Address</p>
+					<input id ="entered_email" type="text" class='input' name="code" style="margin-left: 52px;"></input>
+					<div class="footer" style="background-color: rgb(110,200,155); color: #fff;">
+						<div style = "display: inline-flex;margin-top: 21px;margin-left: -40px;">
+							<input type="checkbox" name="update_email" id="update_email" style="min-height: 15px !important;width: 25px !important;box-shadow: none !important;"/><label>Update Your Email</label>
+						</div>
+						<div class="button cancel" style="background-color: #0075AC; color: #fff;">
+							Cancel 
+						</div>
+						<div class="button confirm" style="background-color: #0075AC; color: #fff;">
+							OK 
+						</div>
+					</div>
+				</div>
+			</div>
+		</t>
 	</templates>
