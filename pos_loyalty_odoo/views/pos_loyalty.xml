@@ -115,11 +115,11 @@
 			<field name="arch" type="xml">
 			   <tree string="POS Loyalty History" create="0" edit="0">
 						<field name="order_id"/>	
-						<field name="partner_id"/>			
+						<field name="partner_id"/>	
+						<field name="partner_barcode"/>
+						<field name="partner_vat"/>		
 						<field name="transaction_type"/>	
 						<field name="date"/>
-						<field name="partner_barcode"/>
-						<field name="partner_vat"/>
 						<field name="points"/>
 						<field name="total_points"/>
 				</tree>

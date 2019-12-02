@@ -19,6 +19,25 @@
 					<span> <t t-esc='partner.loyalty_points'/></span>
 				</div>
 			</t>
+			<t t-jquery=".client-details-box" t-operation="after">
+				<div class="loyalty" style="max-height: 200px;overflow: auto;border-bottom: solid 5px rgb(110,200,155);">
+					<section>
+						<table class='loyalty-list client-list' style="    max-height: 200px;font-size: 15px;width: 100%;margin-top: 10px;line-height: 35px;height: 150px !important;border: 1px solid #6dc89b;">
+							<thead>
+								<tr style="background-color: #fff;border-top: solid 5px rgb(110,200,155);">
+									<th class="date">Date</th>
+									<th class="order_id">Order</th>
+									<th class="transaction_type">Transaction</th>
+									<th class="points">Transaction Points</th>
+									<th class="total_points">Global Points</th>
+								</tr>
+							</thead>
+							<tbody class='loyalty-list-contents'>
+							</tbody>
+						</table>
+					</section>
+				</div>
+			</t>
 		</t>
 
 		<t t-extend="ClientDetailsEdit">
@@ -37,6 +56,16 @@
 					</select>
 				</div>
 			</t>
+		</t>
+
+		<t t-name="LoayltyLine">
+			<tr>
+				<td  style="cursor: pointer;"><t t-esc='loyalty.date' /></td>
+				<td style="cursor: pointer;"><t t-esc='loyalty.order_id[1]' /></td>
+				<td style="cursor: pointer;"><t t-esc='loyalty.transaction_type' /></td>
+				<td style="cursor: pointer;"><t t-esc='loyalty.points' /></td>
+				<td style="cursor: pointer;"><t t-esc='loyalty.total_points' /></td>
+			</tr>
 		</t>
 
 
@@ -65,7 +94,7 @@
 		</t>		   
 
 
-	  <!-- GiftButtonWidget -->
+	    <!-- GiftButtonWidget -->
 	   
 		<t t-name="LoyaltyButtonWidget" name="Redeem Loyalty Points" id="redeem">
 			<t t-if="widget.pos.pos_loyalty_setting.length !== 0">
@@ -104,8 +133,6 @@
 			</div>
 		</t>
 	
-
-
 		<!-- OrderWidget -->
 		<t t-extend="OrderWidget">
 			<t t-jquery=".summary" t-operation="after">

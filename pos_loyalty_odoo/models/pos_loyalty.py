@@ -94,6 +94,7 @@ class pos_loyalty_history(models.Model):
 	user_id =  fields.Many2one('res.users','User')
 	total_points = fields.Integer('Total Loyalty Points')
 	session_id  = fields.Many2one('pos.session',"POS session")
+	config_id = fields.Many2one('POS', related='session_id.config_id')
 	product_id = fields.Many2one('product.product','Voucher Product', domain = [('type', '=', 'service'),('available_in_pos','=',True)])
 	voucher_amount = fields.Float("Voucher Amount")
 
