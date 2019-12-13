@@ -6,6 +6,7 @@ from datetime import date, time, datetime
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.exceptions import UserError, ValidationError,Warning
 import logging
+import math
 _logger = logging.getLogger(__name__)
 
 class PosConfig(models.Model):
@@ -83,6 +84,7 @@ class pos_loyalty_setting(models.Model):
 class pos_loyalty_history(models.Model):
 	_name = 'pos.loyalty.history'
 	_rec_name = 'order_id'
+	_order = "id desc"
 		
 	order_id  = fields.Many2one('pos.order','POS Order')
 	partner_id  = fields.Many2one('res.partner','Customer')
@@ -97,6 +99,7 @@ class pos_loyalty_history(models.Model):
 	config_id = fields.Many2one('POS', related='session_id.config_id')
 	product_id = fields.Many2one('product.product','Voucher Product', domain = [('type', '=', 'service'),('available_in_pos','=',True)])
 	voucher_amount = fields.Float("Voucher Amount")
+	vouchers = fields.Float("Vouchers")
 
 class POSOrder(models.Model):
 	_inherit = 'pos.order'
@@ -131,6 +134,14 @@ class POSOrder(models.Model):
 						cust_loyalty = pos_order_id.partner_id.loyalty_points + order.get('loyalty')
 						order_loyalty = order.get('loyalty')
 						redeemed = order.get('redeemed_points')
+						loyalty_setting = self.env['pos.loyalty.setting'].search([('active','=',True)])
+						
+						if loyalty_setting :
+							redeem_points = loyalty_setting.redeem_points
+							vchr =  pos_order_id.partner_id.loyalty_points/redeem_points 
+							vouchers =  math.floor(vchr)
+							print("eeeeeeeeeeeeeeeeeeeeeeee",vouchers)
+
 						pos_order_id.write({
 							'redeemed_points' : redeemed,
 							'order_loyalty' : order_loyalty
@@ -144,11 +155,12 @@ class POSOrder(models.Model):
 								'points': order_loyalty,
 								'user_id' : pos_order_id.user_id.id,
 								'session_id' : pos_order_id.session_id.id,
+								'vouchers':vouchers,
 								'total_points' : pos_order_id.partner_id.prev_points + order_loyalty,
 							}
 							loyalty_history = loyalty_history_obj.create(vals1)
 						if order.get('redeem_done') == True:
-							voucher_product = self.env['pos.loyalty.setting'].search([('active','=',True)]).product_id
+							voucher_product = loyalty_setting.product_id
 							vals = {
 								'order_id':pos_order_id.id,
 								'partner_id': pos_order_id.partner_id.id,
@@ -159,6 +171,7 @@ class POSOrder(models.Model):
 								'user_id' : pos_order_id.user_id.id,
 								'session_id' : pos_order_id.session_id.id,
 								'product_id': voucher_product.id,
+								'vouchers':vouchers,
 								'voucher_amount' : voucher_product.lst_price,
 							}
 							loyalty_history = loyalty_history_obj.create(vals)

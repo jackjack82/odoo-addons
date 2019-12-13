@@ -20,6 +20,16 @@
 				</div>
 			</t>
 			<t t-jquery=".client-details-box" t-operation="after">
+				<t t-if="vouchers &gt; 0">
+					<div style="font-size: 18px;margin:1% 25%;font-weight:bold;">
+						<span>Discount Voucher Available  : </span>
+						<span style="color: #009049;margin: 0px 5px;"><t t-esc='vouchers'/> </span>
+						<span>  for a value of  :</span>
+						<span style="color: #009049;margin: 0px 5px;"><t t-esc='widget.format_currency(vouchers_price)'/></span>
+					</div>
+					
+				</t>
+				
 				<div class="loyalty" style="max-height: 200px;overflow: auto;border-bottom: solid 5px rgb(110,200,155);">
 					<section>
 						<table class='loyalty-list client-list' style="    max-height: 200px;font-size: 15px;width: 100%;margin-top: 10px;line-height: 35px;height: 150px !important;border: 1px solid #6dc89b;">
@@ -30,6 +40,7 @@
 									<th class="transaction_type">Transaction</th>
 									<th class="points">Transaction Points</th>
 									<th class="total_points">Global Points</th>
+									<th class="vouchers">vouchers</th>
 								</tr>
 							</thead>
 							<tbody class='loyalty-list-contents'>
@@ -48,7 +59,6 @@
 				</div>
 				<div class='client-detail'>
 					<span class='label'>Gender</span>
-					<!-- <input class='detail client-gender'   name='gender'         t-att-value='partner.gender || ""' placeholder='Gender'></input> -->
 					<select class='detail client-gender needsclick' name='gender'>
 						<option value="male">Male</option>
 						<option value="female">Female</option>
@@ -65,6 +75,7 @@
 				<td style="cursor: pointer;"><t t-esc='loyalty.transaction_type' /></td>
 				<td style="cursor: pointer;"><t t-esc='loyalty.points' /></td>
 				<td style="cursor: pointer;"><t t-esc='loyalty.total_points' /></td>
+				<td style="cursor: pointer;"><t t-esc='loyalty.vouchers' /></td>
 			</tr>
 		</t>
 

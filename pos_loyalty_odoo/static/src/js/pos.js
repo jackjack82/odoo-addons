@@ -54,7 +54,7 @@ odoo.define('pos_loyalty_odoo.pos', function(require) {
 		get_loyalty_history: function (partner) {
 			var self = this;
 			console.log("partner ===============",partner)
-			var fields = ['id','date','order_id', 'transaction_type', 'points', 'total_points'];
+			var fields = ['id','date','order_id', 'transaction_type', 'points', 'total_points','vouchers'];
 			var loyalty_domain = [['partner_id', 'in', [partner.id]]];
 			var load_loyalty = [];
 			rpc.query({
@@ -72,9 +72,7 @@ odoo.define('pos_loyalty_odoo.pos', function(require) {
 			var content = this.$el[0].querySelector('.loyalty-list-contents');
 			content.innerHTML = "";
 			var current_date = null;
-			console.log(loyalty_history_list,"nathiiiiiiiiiiiiiiiiii")
 			if(loyalty_history_list.length > 0){
-				console.log(loyalty_history_list,"11111111111")
 				for(var i = 0, len = Math.min(loyalty_history_list.length,1000); i < len; i++){
 					var loyalty    = loyalty_history_list[i];
 					var loyalty_history_line_html = QWeb.render('LoayltyLine',{widget: this, loyalty:loyalty});
@@ -85,7 +83,6 @@ odoo.define('pos_loyalty_odoo.pos', function(require) {
 				}
 			}
 			else{
-					console.log(loyalty_history_list,"22222222222222222");
 					var no_rec = "<div style='text-align: center;border-top: solid 5px rgb(110,200,155);font-size: 17px;margin-top: 10px;padding: 10px;'><span>No Loyalty History Record Found<span></div>";
 					$('.loyalty').html(no_rec);
 				}
@@ -107,12 +104,27 @@ odoo.define('pos_loyalty_odoo.pos', function(require) {
 			contents.on('click','.button.undo',function(){ self.undo_client_details(partner); });
 			this.editing_client = false;
 			this.uploaded_picture = null;
-			self.get_loyalty_history(partner);
-			var loyalty_history_list =  self.pos.get('loyalty_history_list');
-
 			if(visibility === 'show'){
 				contents.empty();
-				contents.append($(QWeb.render('ClientDetails',{widget:this,partner:partner})));
+				var vouchers = 0; 	
+				var vouchers_price = 0;	
+				var loyalty_setting = this.pos.pos_loyalty_setting;
+				if(partner){
+					self.get_loyalty_history(partner);
+					if(loyalty_setting.length != 0)
+					{
+						var redeem_points = loyalty_setting[0].redeem_points;
+						var vchr =  partner.loyalty_points/redeem_points ;
+						vouchers = Math.floor(vchr);
+						console.log(redeem_points,"00000000000================",vouchers)
+						var product_id = loyalty_setting[0].product_id[0];
+						var product = this.pos.db.get_product_by_id(product_id);
+						vouchers_price = product.lst_price * vouchers;
+						console.log(vouchers,"sasa================",vouchers_price)
+					}
+				}
+				contents.append($(QWeb.render('ClientDetails',{widget:this,partner:partner,vouchers:vouchers,vouchers_price:vouchers_price})));
+				var loyalty_history_list =  self.pos.get('loyalty_history_list');
 				self.render_loyalty_list(loyalty_history_list);
 				var new_height   = contents.height();
 
@@ -249,7 +261,7 @@ odoo.define('pos_loyalty_odoo.pos', function(require) {
 				}
 				else{
 					json.loyalty = this.get_total_loyalty();
-				}				
+				}			
 				json.redeem_done = selectedOrder.get('redeem_done');
 			}
 			return json;
@@ -380,9 +392,9 @@ odoo.define('pos_loyalty_odoo.pos', function(require) {
 			if (partner) {
 				this.partner = options.partner.name || {};
 				var curr_loyalty_points = 0
-				partner.loyalty_amount = point_value;
+				// partner.loyalty_amount = point_value;
 				self.loyalty = partner.loyalty_points;
-				self.loyalty_amount = point_value;
+				// self.loyalty_amount = point_value;
 				if(loyalty_setting.length != 0)
 				{
 					this.redeem_points = loyalty_setting[0].redeem_points;
