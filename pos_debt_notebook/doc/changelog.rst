@@ -1,3 +1,7 @@
+`5.3.3`
+-------
+- **Fix:** Wrong debt sign on payment methods
+
 `5.3.2`
 -------
 - **Fix:** Double move lines for POS orders
@@ -68,7 +72,7 @@
 -------
 
 - **FIX:** Compatibility with other pos modules
-- **FIX:** Error message displaying on discount credit paymentlines with zero price 
+- **FIX:** Error message displaying on discount credit paymentlines with zero price
 - **FIX:** Lost overrides of the `order` and `session` forms
 
 `5.0.2`
@@ -138,7 +142,7 @@
 `4.0.0`
 -------
 
-- **ADD:** An ability to show customer debt transactions 
+- **ADD:** An ability to show customer debt transactions
 - **ADD:** Credits can be purchased via Credit Product. No need to use Debt Journal at that case
 - **ADD:** Max Debt setting per each customer. Default is 0.
 - **ADD:** Age analysis, debt statistics
